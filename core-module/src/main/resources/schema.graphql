@@ -3,11 +3,14 @@ schema {
 }
 
 type Query {
-    allData: [Data]
+    nivoBarData(months: [String]): [NivoBarData]
 }
 
-type Data {
-    code: String
+type NivoBarData {
     month: String
-    year: Int
+    adults: Int
+    seniors: Int
+    juniors: Int
+    portable: Int
+    students: Int
 }
