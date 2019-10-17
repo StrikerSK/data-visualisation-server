@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
-    nivoBarData(months: [String]): [NivoBarData]
+    nivoBarData(months:[String], validity:[String], sellType: [String]): [NivoBarData]
 }
 
 type NivoBarData {

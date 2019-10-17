@@ -20,6 +20,8 @@ public class NivoBarDataFetcher implements DataFetcher<List<NivoBarData>> {
 	@Override
 	public List<NivoBarData> get(DataFetchingEnvironment dataFetchingEnvironment) {
 		List<String> months = dataFetchingEnvironment.getArgument("months");
-		return nivoDataService.getNivoBarData(null,null,months);
+		List<String> validity = dataFetchingEnvironment.getArgument("validity");
+		List<String> sellType = dataFetchingEnvironment.getArgument("sellType");
+		return nivoDataService.getNivoBarData(validity,sellType,months);
 	}
 }
