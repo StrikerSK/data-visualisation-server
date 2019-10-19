@@ -26,6 +26,9 @@ public class GraphQLService {
 	@Autowired
 	private NivoBarDataFetcher nivoBarDataFetcher;
 
+	@Autowired
+	private NivoLineDataFetcher nivoLineDataFetcher;
+
 	@PostConstruct
 	public void loadSchema() throws IOException {
 		File schemaFile = resource.getFile();
@@ -39,7 +42,8 @@ public class GraphQLService {
 
 		return RuntimeWiring.newRuntimeWiring()
 				.type("Query", typeWiring -> typeWiring
-						.dataFetcher("nivoBarData", nivoBarDataFetcher))
+						.dataFetcher("nivoBarData", nivoBarDataFetcher)
+						.dataFetcher("nivoLineData", nivoLineDataFetcher))
 				.build();
 	}
 

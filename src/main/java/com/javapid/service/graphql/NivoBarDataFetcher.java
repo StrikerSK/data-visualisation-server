@@ -22,6 +22,7 @@ public class NivoBarDataFetcher implements DataFetcher<List<NivoBarData>> {
 		List<String> months = dataFetchingEnvironment.getArgument("months");
 		List<String> validity = dataFetchingEnvironment.getArgument("validity");
 		List<String> sellType = dataFetchingEnvironment.getArgument("sellType");
-		return nivoDataService.getNivoBarData(validity,sellType,months);
+		List<String> year = dataFetchingEnvironment.getArgument("year");
+		return nivoDataService.getNivoBarData(validity,sellType,months,year);
 	}
 }
