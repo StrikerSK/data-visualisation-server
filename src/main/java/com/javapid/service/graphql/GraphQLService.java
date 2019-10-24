@@ -23,11 +23,14 @@ public class GraphQLService {
 
 	private GraphQL graphQL;
 
-	@Autowired
-	private NivoBarDataFetcher nivoBarDataFetcher;
+	private final NivoBarDataFetcher nivoBarDataFetcher;
 
-	@Autowired
-	private NivoLineDataFetcher nivoLineDataFetcher;
+	private final NivoLineDataFetcher nivoLineDataFetcher;
+
+	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher) {
+		this.nivoBarDataFetcher = nivoBarDataFetcher;
+		this.nivoLineDataFetcher = nivoLineDataFetcher;
+	}
 
 	@PostConstruct
 	public void loadSchema() throws IOException {
