@@ -116,6 +116,7 @@ public class PidCouponsService {
 		for (String validity : parameters.getValidity()) {
 			NivoBarDataMonthsByValidity outputObject = new NivoBarDataMonthsByValidity(validity);
 			for (String month : parameters.getMonth()) {
+				System.out.println(parameters.getMonth().size());
 				NivoBarDataByMonth currentBarData = repository.getNivoBarData(Collections.singletonList(validity), parameters.getSellType(), Collections.singletonList(month), parameters.getYearInteger()).get(0);
 				outputObject.setData(month, getDataSum(currentBarData, parameters.getPerson()));
 			}
