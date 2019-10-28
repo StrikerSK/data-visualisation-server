@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
-    nivoBarData(months:[String], validity:[String], sellType: [String], year: [String]): [BarData]
+    nivoBarData(months:[String], validity:[String], sellType: [String], year: [String], person: [String]): [BarData]
     nivoLineData(months:[String], validity:[String], sellType: [String], year: [String], person: [String]): [LineData]
 }
 

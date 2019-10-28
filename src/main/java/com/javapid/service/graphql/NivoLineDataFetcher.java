@@ -1,5 +1,6 @@
 package com.javapid.service.graphql;
 
+import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.service.PidCouponsService;
 import graphql.schema.DataFetcher;
@@ -24,6 +25,6 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineAbstractDat
 		List<String> sellType = dataFetchingEnvironment.getArgument("sellType");
 		List<String> year = dataFetchingEnvironment.getArgument("year");
 		List<String> person = dataFetchingEnvironment.getArgument("person");
-		return couponsService.getNivoLineData(validity,sellType,months,year,person);
+		return couponsService.getNivoLineData(new PidCouponsParameters(validity,sellType,months,year,person));
 	}
 }
