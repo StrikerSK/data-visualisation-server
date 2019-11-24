@@ -5,6 +5,7 @@ schema {
 type Query {
     nivoBarData(months:[String], validity:[String], sellType: [String], year: [String], person: [String]): [BarData]
     nivoLineData(months:[String], validity:[String], sellType: [String], year: [String], person: [String]): [LineData]
+    nivoPieData(months:[String], validity:[String], sellType: [String], year: [String], person: [String]): [PieData]
 }
 
 type BarData {
@@ -19,6 +20,12 @@ type BarData {
 type LineData {
     id: String
     data: [Data]
+}
+
+type PieData {
+    id: String
+    label: String
+    value: Int
 }
 
 type Data {
