@@ -4,23 +4,37 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.general.entity.enums.types.Months;
-import org.junit.jupiter.api.BeforeAll;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractApexCouponServiceTest {
+public abstract class AbstractApexCouponServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
-    protected static CouponV2Service couponRepository = Mockito.mock(CouponV2Service.class);
-    protected static ApexCouponService apexCouponService;
+    protected JpaCouponV2Repository couponV2Repository = Mockito.mock(JpaCouponV2Repository.class);
 
-    @BeforeAll
-    static void setUpBeforeClass() {
+    @Mock
+    protected CouponV2Service couponService = Mockito.mock(CouponV2Service.class, Mockito.CALLS_REAL_METHODS);
+
+    @InjectMocks
+    protected ApexCouponService apexCouponService;
+
+    protected static AutoCloseable closeable;
+
+    @BeforeClass
+    public void setup() {
+        closeable = MockitoAnnotations.openMocks(this);
+
         UpdateCouponEntity couponEntity1 = UpdateCouponEntity.builder().id(123L).value(100).month(Months.JANUARY).year(2015).validity(Validity.FIVE_MONTHS).sellType(SellType.COUPON).personType(PersonType.ADULT).build();
         UpdateCouponEntity couponEntity2 = UpdateCouponEntity.builder().id(123L).value(200).month(Months.JANUARY).year(2016).validity(Validity.MONTHLY).sellType(SellType.COUPON).personType(PersonType.ADULT).build();
 
@@ -38,8 +52,13 @@ public abstract class AbstractApexCouponServiceTest {
         couponList.add(couponEntity5);
         couponList.add(couponEntity6);
 
-        Mockito.when(couponList);
-        apexCouponService = new ApexCouponService(couponRepository);
+        Mockito.when(couponService.findCouponEntities(Mockito.any())).thenReturn(couponList);
+        apexCouponService = new ApexCouponService(couponService);
+    }
+
+    @AfterClass
+    public void tearDown() throws Exception {
+        closeable.close();
     }
 
 }

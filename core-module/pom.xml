@@ -34,13 +34,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.7.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>4.27.0</version>
