@@ -61,13 +61,41 @@ public class ApexCouponServiceTest {
     }
 
     @Test
-    public void generalDataRetrieval() {
+    public void retrieveData_yearly() {
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        Assert.assertEquals(result.size(), 2);
+
+        Assert.assertEquals(getApexObject("2015", result), 1100);
+        Assert.assertEquals(getApexObject("2016", result), 1000);
+    }
+
+    @Test
+    public void retrieveData_monthly() {
         List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.MONTH_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
         Assert.assertEquals(result.size(), 12);
 
         Assert.assertEquals(getApexObject(JANUARY.getValue(), result), 300);
         Assert.assertEquals(getApexObject(FEBRUARY.getValue(), result), 1100);
         Assert.assertEquals(getApexObject(MARCH.getValue(), result), 700);
+        Assert.assertEquals(getApexObject(APRIL.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(MAY.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(JUNE.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(JULY.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(AUGUST.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(SEPTEMBER.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(OCTOBER.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(NOVEMBER.getValue(), result), 0);
+        Assert.assertEquals(getApexObject(DECEMBER.getValue(), result), 0);
+    }
+
+    @Test
+    public void retrieveData_validity() {
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.VALIDITY_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        Assert.assertEquals(result.size(), 3);
+
+        Assert.assertEquals(getApexObject(Validity.MONTHLY.getValue(), result), 1200);
+        Assert.assertEquals(getApexObject(Validity.FIVE_MONTHS.getValue(), result), 400);
+        Assert.assertEquals(getApexObject(Validity.YEARLY.getValue(), result), 500);
     }
 
     private Integer getApexObject(String value, List<ApexObject> values) {
