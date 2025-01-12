@@ -17,9 +17,11 @@ import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.charts.api.coupon.enums.types.SellType.*;
 import static com.charts.api.coupon.enums.types.Validity.*;
+import static com.charts.general.entity.constants.EnumerationConstants.MONTH_VALUES;
 import static com.charts.general.entity.enums.types.Months.*;
 import static org.mockito.Mockito.when;
 
@@ -108,6 +110,9 @@ public class ApexCouponServiceTest {
         List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.VALIDITY_GROUP, couponsParameters);
         Assert.assertEquals(result.size(), 2);
 
+        List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
+        Assert.assertEquals(resultValues, List.of("2015", "2016"));
+
         ApexObject apexObject1 = getApexObject("2015", result);
         Assert.assertEquals(getApexObjectSum("2015", result), 2200);
         Assert.assertEquals(apexObject1.getValues().size(), 2);
@@ -123,6 +128,9 @@ public class ApexCouponServiceTest {
     public void retrieveData_monthly() {
         List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.MONTH_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
         Assert.assertEquals(result.size(), 12);
+
+        List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
+        Assert.assertEquals(resultValues, MONTH_VALUES);
 
         Assert.assertEquals(getApexObjectSum(JANUARY.getValue(), result), 600);
         Assert.assertEquals(getApexObjectSum(FEBRUARY.getValue(), result), 2200);
@@ -143,9 +151,27 @@ public class ApexCouponServiceTest {
         List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.VALIDITY_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
         Assert.assertEquals(result.size(), 3);
 
+        List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
+        Assert.assertEquals(resultValues, List.of(MONTHLY.getValue(), FIVE_MONTHS.getValue(), YEARLY.getValue()));
+
         Assert.assertEquals(getApexObjectSum(MONTHLY.getValue(), result), 2400);
         Assert.assertEquals(getApexObjectSum(FIVE_MONTHS.getValue(), result), 800);
         Assert.assertEquals(getApexObjectSum(YEARLY.getValue(), result), 1000);
+
+        ApexObject apexObject1 = getApexObject(MONTHLY.getValue(), result);
+        Assert.assertEquals(getApexObjectSum(MONTHLY.getValue(), result), 2400);
+        Assert.assertEquals(apexObject1.getValues().size(), 2);
+        Assert.assertEquals(apexObject1.getValues(), List.of(1200, 1200));
+
+        ApexObject apexObject2 = getApexObject(FIVE_MONTHS.getValue(), result);
+        Assert.assertEquals(getApexObjectSum(FIVE_MONTHS.getValue(), result), 800);
+        Assert.assertEquals(apexObject2.getValues().size(), 1);
+        Assert.assertEquals(apexObject2.getValues(), List.of(800));
+
+        ApexObject apexObject3 = getApexObject(YEARLY.getValue(), result);
+        Assert.assertEquals(getApexObjectSum(YEARLY.getValue(), result), 1000);
+        Assert.assertEquals(apexObject3.getValues().size(), 1);
+        Assert.assertEquals(apexObject3.getValues(), List.of(1000));
     }
 
     private Integer getApexObjectSum(String searchedValue, List<ApexObject> values) {
