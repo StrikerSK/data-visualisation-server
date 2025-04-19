@@ -7,11 +7,9 @@ import com.charts.files.utils.CsvProcessor;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +20,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-//@ConditionalOnExpression("${com.charts.file.enabled:true}")
-@ConditionalOnProperty(name = "com.charts.file.enabled", havingValue = "true")
-@Controller
 @AllArgsConstructor
 @RequestMapping("/file")
 public class FileController {
