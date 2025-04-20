@@ -7,6 +7,7 @@ import com.charts.api.ticket.service.TicketService;
 import com.charts.files.utils.CsvProcessor;
 import com.charts.files.exception.CsvContentException;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @Service
+@ConditionalOnProperty(name = "com.charts.file.enabled", havingValue = "true")
 @AllArgsConstructor
 public class FileService {
 

@@ -5,7 +5,6 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,11 +19,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-@AllArgsConstructor
 @RequestMapping("/file")
 public class FileController {
 
 	private final FileService fileService;
+
+	public FileController(FileService fileService) {
+		this.fileService = fileService;
+	}
 
 	@GetMapping(value = "/coupon", produces = "text/csv")
 	public void exportCouponsCsv(
