@@ -6,8 +6,6 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.files.utils.CsvProcessor;
 import com.charts.files.exception.CsvContentException;
-import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,13 +13,17 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @Service
-@ConditionalOnProperty(name = "com.charts.file.enabled", havingValue = "true")
-@AllArgsConstructor
 public class FileService {
 
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
 	private final IDataGenerator dataGenerator;
+
+	public FileService(CouponV2Service couponService, TicketService ticketService, IDataGenerator dataGenerator) {
+		this.couponService = couponService;
+		this.ticketService = ticketService;
+		this.dataGenerator = dataGenerator;
+	}
 
 	public List<UpdateCouponEntity> fetchCoupons(Integer count, Boolean random) {
 		if (random != null && random) {
