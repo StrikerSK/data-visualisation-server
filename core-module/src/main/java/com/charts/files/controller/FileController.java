@@ -6,6 +6,7 @@ import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/file")
+@ConditionalOnExpression("${com.charts.file.export.enabled:false}")
 public class FileController {
 
 	private final FileService fileService;
