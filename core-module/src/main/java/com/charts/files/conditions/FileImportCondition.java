@@ -9,9 +9,9 @@ public class FileImportCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        String property = context.getEnvironment().getProperty("com.charts.files.imports.enabled");
-        Boolean isEnabled = "true".equalsIgnoreCase(property);
-        return new ConditionOutcome(FileCondition.getFileEnabledProperty(context) && isEnabled, "File export enabled");
+        Boolean filesEnabledProperty = FileCondition.getEnabledProperty(context);
+        Boolean importEnabledProperty = FileCondition.getEnabledProperty(context, "com.charts.files.imports.enabled");
+        return new ConditionOutcome(filesEnabledProperty && importEnabledProperty, "File import enabled");
     }
 
 }
