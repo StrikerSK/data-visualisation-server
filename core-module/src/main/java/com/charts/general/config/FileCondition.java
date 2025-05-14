@@ -9,7 +9,7 @@ public class FileCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        String property = context.getEnvironment().getProperty("com.charts.file.export.enabled");
+        String property = context.getEnvironment().getProperty("com.charts.files.enabled");
         return new ConditionOutcome("true".equalsIgnoreCase(property), "File export enabled");
     }
 
