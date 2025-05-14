@@ -1,33 +1,28 @@
 package com.charts.files.controller;
 
-import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.files.conditions.FileImportCondition;
 import com.charts.files.service.FileService;
-import com.charts.files.conditions.FileCondition;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
-import static com.charts.files.controller.FileController.processRequest;
-import static com.charts.files.controller.FileController.writeResponse;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/file")
-@Conditional(FileCondition.class)
-public class CouponFileController {
+@Conditional(FileImportCondition.class)
+public class FileImportController {
 
 	private final FileService fileService;
 
-	public CouponFileController(FileService fileService) {
+	public FileImportController(FileService fileService) {
 		this.fileService = fileService;
 	}
 
@@ -36,20 +31,21 @@ public class CouponFileController {
 		System.out.println("CouponFileController initialized!");
 	}
 
-	@GetMapping(value = "/coupon", produces = "text/csv")
-	public void exportCouponsCsv(
-			@RequestParam(name = "random", required = false) Boolean random,
-			@RequestParam(name = "count", required = false, defaultValue = "100") Integer count,
-			HttpServletResponse response
-	) {
-		List<UpdateCouponEntity> couponList = fileService.fetchCoupons(count, random);
-		writeResponse(response, couponList, "coupon");
-    }
-
 	@SneakyThrows
     @PostMapping(value = "/coupon", consumes = "multipart/form-data")
 	public ResponseEntity<?> uploadCouponsCsv(@RequestParam MultipartFile payload) {
 		return processRequest(payload, fileService::processCoupons);
+	}
+
+	@SneakyThrows
+	@PostMapping(value = "/ticket", consumes = "multipart/form-data")
+	public ResponseEntity<?> uploadTicketsCsv(@RequestParam MultipartFile payload) {
+		return processRequest(payload, fileService::processTickets);
+	}
+
+	protected static ResponseEntity<?> processRequest(MultipartFile payload, Consumer<MultipartFile> persistence) {
+		persistence.accept(payload);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 }
