@@ -2,7 +2,7 @@ package com.charts.files.controller;
 
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
-import com.charts.general.config.FileCondition;
+import com.charts.files.conditions.FileCondition;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;

@@ -6,7 +6,7 @@ import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.enums.TicketType;
-import com.charts.general.config.FileCondition;
+import com.charts.files.conditions.FileCondition;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
