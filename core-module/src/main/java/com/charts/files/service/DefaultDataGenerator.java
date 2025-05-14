@@ -6,9 +6,11 @@ import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.enums.TicketType;
+import com.charts.general.config.FileCondition;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@Conditional(FileCondition.class)
 public class DefaultDataGenerator implements IDataGenerator {
 
     public List<UpdateCouponEntity> generateCoupons(Integer counts) {

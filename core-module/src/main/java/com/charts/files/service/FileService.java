@@ -6,6 +6,8 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.files.utils.CsvProcessor;
 import com.charts.files.exception.CsvContentException;
+import com.charts.general.config.FileCondition;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @Service
+@Conditional(FileCondition.class)
 public class FileService {
 
 	private final CouponV2Service couponService;
