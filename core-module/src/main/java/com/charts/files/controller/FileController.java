@@ -4,17 +4,13 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,7 +19,6 @@ import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/file")
-@ConditionalOnExpression("${com.charts.file.export.enabled:false}")
 public class FileController {
 
 	private final FileService fileService;
@@ -32,7 +27,12 @@ public class FileController {
 		this.fileService = fileService;
 	}
 
-	@GetMapping(value = "/coupon", produces = "text/csv")
+	@PostConstruct
+	public void init() {
+		System.out.println("FileController initialized!");
+	}
+
+	@GetMapping(value = "/file/coupon", produces = "text/csv")
 	public void exportCouponsCsv(
 			@RequestParam(name = "random", required = false) Boolean random,
 			@RequestParam(name = "count", required = false, defaultValue = "100") Integer count,
@@ -65,7 +65,7 @@ public class FileController {
 	}
 
 	@SneakyThrows
-    @PostMapping(value = "/coupon", consumes = "multipart/form-data")
+    @PostMapping(value = "/file/coupon", consumes = "multipart/form-data")
 	public ResponseEntity<?> uploadCouponsCsv(@RequestParam MultipartFile payload) {
 		return processRequest(payload, fileService::processCoupons);
 	}
