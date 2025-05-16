@@ -2,7 +2,6 @@ package com.charts.files.controller;
 
 import com.charts.files.conditions.FileImportCondition;
 import com.charts.files.service.FileService;
-import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpStatus;
@@ -24,11 +23,6 @@ public class FileImportController {
 
 	public FileImportController(FileService fileService) {
 		this.fileService = fileService;
-	}
-
-	@PostConstruct
-	public void init() {
-		System.out.println("CouponFileController initialized!");
 	}
 
 	@SneakyThrows

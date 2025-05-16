@@ -5,7 +5,6 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.conditions.FileExportCondition;
 import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpHeaders;
@@ -26,11 +25,6 @@ public class FileExportController {
 
 	public FileExportController(FileService fileService) {
 		this.fileService = fileService;
-	}
-
-	@PostConstruct
-	public void init() {
-		System.out.println("TicketFileController initialized!");
 	}
 
 	@GetMapping(value = "/ticket", produces = "text/csv")
