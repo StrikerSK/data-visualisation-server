@@ -4,6 +4,7 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
+import com.charts.files.generator.IDataGenerator;
 import com.charts.files.utils.CsvProcessor;
 import com.charts.files.exception.CsvContentException;
 import com.charts.files.conditions.FileCondition;

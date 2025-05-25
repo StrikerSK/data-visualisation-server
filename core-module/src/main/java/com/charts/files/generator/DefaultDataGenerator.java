@@ -1,4 +1,4 @@
-package com.charts.files.service;
+package com.charts.files.generator;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.enums.types.PersonType;
