@@ -12,7 +12,6 @@
     <modules>
         <module>core-module</module>
         <module>apex-module</module>
-        <module>file-module</module>
         <module>jar-distribution</module>
         <module>recharts-module</module>
         <module>nivo-module</module>
@@ -21,7 +20,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
+        <version>3.4.4</version>
         <relativePath/>
     </parent>
 
