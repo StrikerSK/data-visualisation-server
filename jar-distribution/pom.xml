@@ -48,11 +48,6 @@
             <artifactId>recharts-module</artifactId>
             <version>${parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.charts</groupId>
-            <artifactId>file-module</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
     </dependencies>
 
 </project>
