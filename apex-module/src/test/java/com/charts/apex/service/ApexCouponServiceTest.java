@@ -34,8 +34,7 @@ public class ApexCouponServiceTest {
     private ApexCouponService apexCouponService;
 
     private AutoCloseable closeable;
-    private final CouponsParameters couponsParameters = new CouponsParameters(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
-
+    private final CouponsParameters defaultCouponParameters = new CouponsParameters(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
     @BeforeClass
     public void setup() {
@@ -75,7 +74,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_yearlyPerPersonType() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.PERSON_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of("2015", "2016"));
 
@@ -92,7 +91,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_yearlyPerSellType() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.SELL_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.SELL_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of("2015", "2016"));
 
@@ -109,7 +108,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_yearlyPerValidity() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.VALIDITY_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.YEAR_GROUP, CouponFunctionUtils.VALIDITY_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of("2015", "2016"));
 
@@ -126,7 +125,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_monthly() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.MONTH_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.MONTH_GROUP, CouponFunctionUtils.PERSON_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, MONTH_VALUES);
 
@@ -146,7 +145,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_personPerYear() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.PERSON_GROUP, CouponFunctionUtils.YEAR_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.PERSON_GROUP, CouponFunctionUtils.YEAR_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of(ADULT.getValue(), SENIOR.getValue()));
 
@@ -163,7 +162,7 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_validityPerPerson() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.VALIDITY_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.VALIDITY_GROUP, CouponFunctionUtils.PERSON_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of(MONTHLY.getValue(), FIVE_MONTHS.getValue(), YEARLY.getValue()));
 
@@ -185,24 +184,24 @@ public class ApexCouponServiceTest {
 
     @Test
     public void retrieveData_sellTypePerPerson() {
-        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.SELL_GROUP, CouponFunctionUtils.PERSON_GROUP, couponsParameters);
+        List<ApexObject> result = apexCouponService.getCouponData(CouponFunctionUtils.SELL_GROUP, CouponFunctionUtils.PERSON_GROUP, defaultCouponParameters);
         List<String> resultValues = result.stream().map(ApexObject::getName).collect(Collectors.toList());
         Assert.assertEquals(resultValues, List.of(CARD.getValue(), COUPON.getValue(), ESHOP.getValue()));
 
-        ApexObject apexObject1 = getApexObject(COUPON.getValue(), result);
+        ApexObject couponGroup = getApexObject(COUPON.getValue(), result);
         Assert.assertEquals(getApexObjectSum(COUPON.getValue(), result), 1000);
-        Assert.assertEquals(apexObject1.getValues().size(), 1);
-        Assert.assertEquals(apexObject1.getValues(), List.of(1000));
+        Assert.assertEquals(couponGroup.getValues().size(), 1);
+        Assert.assertEquals(couponGroup.getValues(), List.of(1000));
 
-        ApexObject apexObject2 = getApexObject(ESHOP.getValue(), result);
+        ApexObject eshopGroup = getApexObject(ESHOP.getValue(), result);
         Assert.assertEquals(getApexObjectSum(CARD.getValue(), result), 1600);
-        Assert.assertEquals(apexObject2.getValues().size(), 2);
-        Assert.assertEquals(apexObject2.getValues(), List.of(400, 1200));
+        Assert.assertEquals(eshopGroup.getValues().size(), 2);
+        Assert.assertEquals(eshopGroup.getValues(), List.of(400, 1200));
 
-        ApexObject apexObject3 = getApexObject(CARD.getValue(), result);
+        ApexObject cardGroup = getApexObject(CARD.getValue(), result);
         Assert.assertEquals(getApexObjectSum(CARD.getValue(), result), 1600);
-        Assert.assertEquals(apexObject3.getValues().size(), 2);
-        Assert.assertEquals(apexObject3.getValues(), List.of(600, 1000));
+        Assert.assertEquals(cardGroup.getValues().size(), 2);
+        Assert.assertEquals(cardGroup.getValues(), List.of(600, 1000));
     }
 
     private Integer getApexObjectSum(String searchedValue, List<ApexObject> values) {
