@@ -51,4 +51,24 @@
         <addAutoIncrement tableName="data_pid" columnName="id" startWith="1" incrementBy="1" columnDataType="number"/>
     </changeSet>
 
+    <changeSet author="original_data-3" id="TheStriker">
+        <sqlFile dbms="postgresql"
+                 encoding="UTF-8"
+                 endDelimiter=";"
+                 path="../sql/JizdenkyDataScript.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+
+    <changeSet author="original_data-4" id="TheStriker">
+        <sqlFile dbms="postgresql"
+                 encoding="UTF-8"
+                 endDelimiter=";"
+                 path="../sql/PidDataScript.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+
 </databaseChangeLog>
