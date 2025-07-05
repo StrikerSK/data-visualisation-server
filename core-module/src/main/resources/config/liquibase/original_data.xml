@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+>
+
+    <changeSet id="original_data-1" author="TheStriker">
+        <createTable tableName="data_pid">
+            <column name="id" type="number">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="kod" type="text"/>
+            <column name="mesiac" type="varchar"/>
+            <column name="rok" type="integer"/>
+            <column name="typ_predaja" type="varchar"/>
+            <column name="platnost" type="varchar"/>
+            <column name="dieta" type="integer"/>
+            <column name="junior" type="integer"/>
+            <column name="studenti" type="integer"/>
+            <column name="dospeli" type="integer"/>
+            <column name="dochodcovia" type="integer"/>
+            <column name="prenosna" type="integer"/>
+        </createTable>
+        <addAutoIncrement tableName="data_pid" columnName="id" startWith="1" incrementBy="1" columnDataType="number"/>
+    </changeSet>
+
+    <changeSet id="original_data-2" author="TheStriker">
+        <createTable tableName="pid_jizdenky">
+            <column name="id" type="number">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="kod" type="text"/>
+            <column name="mesiac" type="varchar"/>
+            <column name="rok" type="int"/>
+            <column name="zlavneny" type="boolean"/>
+            <column name="stvrt_minut" type="integer"/>
+            <column name="jeden_den" type="integer"/>
+            <column name="jeden_den_vsetky" type="integer"/>
+            <column name="dve_pasma" type="integer"/>
+            <column name="tri_pasma" type="integer"/>
+            <column name="styri_pasma" type="integer"/>
+            <column name="pat_pasem" type="integer"/>
+            <column name="sest_pasem" type="integer"/>
+            <column name="sedem_pasem" type="integer"/>
+            <column name="osem_pasem" type="integer"/>
+            <column name="devat_pasem" type="integer"/>
+            <column name="desat_pasem" type="integer"/>
+            <column name="jedenast_pasem" type="integer"/>
+        </createTable>
+        <addAutoIncrement tableName="data_pid" columnName="id" startWith="1" incrementBy="1" columnDataType="number"/>
+    </changeSet>
+
+</databaseChangeLog>
