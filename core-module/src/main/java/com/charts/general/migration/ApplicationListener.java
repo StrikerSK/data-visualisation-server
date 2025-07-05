@@ -10,6 +10,7 @@ import com.charts.api.ticket.repository.JpaTicketV2Repository;
 import com.charts.api.ticket.utils.TicketConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.SpringApplicationEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ApplicationListener {
     private final JpaTicketRepository ticketRepository;
     private final JpaTicketV2Repository ticketV2Repository;
 
-//    @EventListener
+    @EventListener
     public void onApplicationEvent(SpringApplicationEvent event) {
         List<CouponEntityV1> coupons = couponRepository.findAll();
         couponV2Repository.saveAll(CouponConvertor.convertCouponEntity(coupons));
