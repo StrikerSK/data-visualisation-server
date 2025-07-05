@@ -1,7 +1,7 @@
 package com.charts.api.ticket.entity.v2;
 
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.api.ticket.enums.TicketType;
 import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

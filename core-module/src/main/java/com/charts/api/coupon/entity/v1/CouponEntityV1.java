@@ -1,8 +1,8 @@
 package com.charts.api.coupon.entity.v1;
 
 import com.charts.general.entity.AbstractEntityV1;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

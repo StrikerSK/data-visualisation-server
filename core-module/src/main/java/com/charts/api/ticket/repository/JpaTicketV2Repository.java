@@ -3,7 +3,7 @@ package com.charts.api.ticket.repository;
 import com.charts.general.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.enums.types.Months;
-import com.charts.api.ticket.enums.TicketType;
+import com.charts.api.ticket.entity.enums.TicketType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

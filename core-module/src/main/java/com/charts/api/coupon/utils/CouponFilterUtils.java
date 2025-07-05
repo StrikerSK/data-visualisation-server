@@ -1,9 +1,9 @@
 package com.charts.api.coupon.utils;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.general.utils.AbstractFilterUtils;
 
 import java.util.List;

@@ -1,11 +1,11 @@
 package com.charts.files.generator;
 
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
-import com.charts.api.ticket.enums.TicketType;
 import com.charts.files.conditions.FileCondition;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;

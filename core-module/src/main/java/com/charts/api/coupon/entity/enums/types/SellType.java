@@ -1,4 +1,4 @@
-package com.charts.api.coupon.enums.types;
+package com.charts.api.coupon.entity.enums.types;
 
 import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;

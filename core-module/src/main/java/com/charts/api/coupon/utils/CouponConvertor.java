@@ -2,7 +2,7 @@ package com.charts.api.coupon.utils;
 
 import com.charts.api.coupon.entity.v1.CouponEntityV1;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.api.coupon.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.PersonType;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;

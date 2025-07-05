@@ -1,14 +1,14 @@
 package com.charts.api.coupon.service;
 
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.general.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

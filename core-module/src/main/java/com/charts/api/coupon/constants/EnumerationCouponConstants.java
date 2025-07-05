@@ -1,8 +1,8 @@
 package com.charts.api.coupon.constants;
 
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.general.entity.enums.EnumUtils;
 
 import java.util.List;

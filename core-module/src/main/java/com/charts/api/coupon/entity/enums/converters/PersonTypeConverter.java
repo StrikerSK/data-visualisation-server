@@ -1,7 +1,7 @@
-package com.charts.api.coupon.enums.converters;
+package com.charts.api.coupon.entity.enums.converters;
 
+import com.charts.api.coupon.entity.enums.types.PersonType;
 import com.charts.general.entity.enums.EnumUtils;
-import com.charts.api.coupon.enums.types.PersonType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

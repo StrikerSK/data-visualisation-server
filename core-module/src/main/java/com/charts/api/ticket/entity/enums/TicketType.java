@@ -1,4 +1,4 @@
-package com.charts.api.ticket.enums;
+package com.charts.api.ticket.entity.enums;
 
 import com.charts.api.ticket.constants.TicketConstants;
 import com.charts.general.entity.enums.IEnum;

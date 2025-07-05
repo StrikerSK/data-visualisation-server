@@ -1,9 +1,9 @@
 package com.charts.files.utils;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.types.Months;

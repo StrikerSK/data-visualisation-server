@@ -1,6 +1,6 @@
 package com.charts.general.entity.enums;
 
-import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.SellType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
