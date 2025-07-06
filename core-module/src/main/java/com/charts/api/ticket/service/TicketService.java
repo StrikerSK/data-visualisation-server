@@ -1,9 +1,9 @@
 package com.charts.api.ticket.service;
 
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.general.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.repository.JpaTicketV2Repository;
-import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;

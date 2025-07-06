@@ -11,6 +11,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Deprecated
 public class CouponRepository {
 
     private final JpaCouponRepository couponRepository;

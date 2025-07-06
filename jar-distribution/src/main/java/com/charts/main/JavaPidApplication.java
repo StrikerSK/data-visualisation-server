@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.charts")
 @EnableJpaRepositories(basePackages = {"com.charts.api.coupon.repository", "com.charts.api.ticket.repository"})
-@EntityScan(basePackages = {"com.charts.api.coupon.entity", "com.charts.api.ticket.entity"})
+@EntityScan(basePackages = {"com.charts.api.coupon.entity", "com.charts.api.ticket.entity", "com.charts.general.entity"})
 public class JavaPidApplication {
 
 	public static void main(String[] args) {

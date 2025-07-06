@@ -1,9 +1,9 @@
 package com.charts.api.coupon.repository;
 
 import com.charts.api.coupon.entity.CouponsParameters;
-import com.charts.api.coupon.enums.types.PersonType;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.general.entity.coupon.AbstractCouponTest;
 import com.charts.general.entity.enums.EnumUtils;

@@ -1,7 +1,7 @@
 package com.charts.api.ticket.utils;
 
 import com.charts.general.entity.enums.types.Months;
-import com.charts.api.ticket.enums.TicketType;
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.api.ticket.entity.v1.TicketEntityV1;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import org.apache.commons.lang3.tuple.Pair;

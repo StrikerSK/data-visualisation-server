@@ -1,8 +1,8 @@
 package com.charts.api.coupon.entity.v1;
 
 import com.charts.general.entity.AbstractEntityV1;
-import com.charts.api.coupon.enums.types.SellType;
-import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.entity.enums.types.SellType;
+import com.charts.api.coupon.entity.enums.types.Validity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -12,11 +12,12 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "data_pid")
+@Table(name = "coupon_entity_v1")
 @NoArgsConstructor
 @Getter
 @Setter
 @SuperBuilder
+@Deprecated
 public class CouponEntityV1 extends AbstractEntityV1 implements Comparable<CouponEntityV1> {
 
 	@Column(name = "platnost")

@@ -11,12 +11,13 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "pid_jizdenky")
+@Table(name = "tickets_entity_v1")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class TicketEntityV1 extends AbstractEntityV1 implements Comparable<TicketEntityV1> {
 
 	@Column(name = "zlavneny")
