@@ -12,7 +12,7 @@ services:
     networks:
       - pid-server
     environment:
-      - spring.datasource.url=jdbc:postgresql://pid-db:${DATABASE_PORT}/${DATABASE_NAME}
+      - spring.datasource.url=jdbc:postgresql://pid-db/${DATABASE_NAME}
       - spring.datasource.username=${DATABASE_USER}
       - spring.datasource.password=${DATABASE_PASSWORD}
       - spring.profiles.active=dev
@@ -21,10 +21,11 @@ services:
     image: postgres
     container_name: pid-app-db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - pid-server
     environment:
+      POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
