@@ -21,7 +21,7 @@ services:
     image: postgres
     container_name: pid-app-db
     ports:
-      - "5433:5432"
+      - ${DATABASE_PORT}:5432
     networks:
       - pid-server
     environment:
