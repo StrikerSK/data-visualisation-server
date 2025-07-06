@@ -14,7 +14,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest(
         classes = JavaPidApplication.class,
-        properties = {"com.charts.files.enabled=false"},
+        properties = {
+                "com.charts.files.enabled=false",
+                "spring.liquibase.enabled=false"
+        },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureMockMvc
