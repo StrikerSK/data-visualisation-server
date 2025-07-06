@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run Main Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="h2" />
+    <option name="ACTIVE_PROFILES" value="dev" />
     <module name="jar-distribution" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.charts.main.JavaPidApplication" />
     <method v="2">
