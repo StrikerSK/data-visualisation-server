@@ -55,7 +55,7 @@
         <sqlFile dbms="postgresql"
                  encoding="UTF-8"
                  endDelimiter=";"
-                 path="../sql/JizdenkyDataScript.sql"
+                 path="../sql/Data_Coupons.sql"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
@@ -65,7 +65,7 @@
         <sqlFile dbms="postgresql"
                  encoding="UTF-8"
                  endDelimiter=";"
-                 path="../sql/PidDataScript.sql"
+                 path="../sql/Data_Tickets.sql"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
