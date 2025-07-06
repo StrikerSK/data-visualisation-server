@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "pid_jizdenky")
+@Table(name = "tickets_entity_v1")
 @Getter
 @Setter
 @SuperBuilder

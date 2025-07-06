@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 
 @Entity
-@Table(name = "tickets_v2")
+@Table(name = "tickets_entity_v2")
 @NoArgsConstructor
 @Getter
 @Setter

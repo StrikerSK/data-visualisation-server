@@ -12,7 +12,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "data_pid")
+@Table(name = "coupon_entity_v1")
 @NoArgsConstructor
 @Getter
 @Setter
