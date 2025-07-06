@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class TicketEntityV1 extends AbstractEntityV1 implements Comparable<TicketEntityV1> {
 
 	@Column(name = "zlavneny")

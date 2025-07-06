@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@Deprecated
 public class CouponEntityV1 extends AbstractEntityV1 implements Comparable<CouponEntityV1> {
 
 	@Column(name = "platnost")
