@@ -1,34 +1,35 @@
 version: '3.5'
+name: pid-application
 
 services:
-  pid-app:
-    container_name: pid-app-server
+  pid-server:
+    container_name: server
     build: .
     ports:
       - "8081:8080"
     #Dependencies name base on other services in compose file
     depends_on:
-      - pid-db
+      - pid-database
     networks:
-      - pid-server
+      - pid-network
     environment:
-      - spring.datasource.url=jdbc:postgresql://pid-db/${DATABASE_NAME}
+      - spring.datasource.url=jdbc:postgresql://pid-database/${DATABASE_NAME}
       - spring.datasource.username=${DATABASE_USER}
       - spring.datasource.password=${DATABASE_PASSWORD}
       - spring.profiles.active=dev
 
-  pid-db:
+  pid-database:
     image: postgres
-    container_name: pid-app-db
+    container_name: database
     ports:
       - ${DATABASE_PORT}:5432
     networks:
-      - pid-server
+      - pid-network
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
 networks:
-  pid-server:
+  pid-network:
     driver: bridge
