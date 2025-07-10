@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.charts.api.coupon.enums.types.PersonType.*;
-import static com.charts.api.coupon.enums.types.SellType.*;
-import static com.charts.api.coupon.enums.types.Validity.*;
+import static com.charts.api.coupon.entity.enums.types.PersonType.*;
+import static com.charts.api.coupon.entity.enums.types.SellType.*;
+import static com.charts.api.coupon.entity.enums.types.Validity.*;
 import static com.charts.general.entity.constants.EnumerationConstants.MONTH_VALUES;
 import static com.charts.general.entity.enums.types.Months.*;
 import static org.mockito.Mockito.when;
