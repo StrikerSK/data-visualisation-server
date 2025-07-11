@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Service
 @Getter
 public class GraphQLService {
 
-	@Value("classpath:schema.graphql")
+	@Value("classpath:schema.graphqls")
 	Resource resource;
 
 	private GraphQL graphQL;
@@ -40,11 +41,12 @@ public class GraphQLService {
 
 	@PostConstruct
 	public void loadSchema() throws IOException {
-		File schemaFile = resource.getFile();
-		TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
-		RuntimeWiring wiring = buildRuntimeWiring();
-		GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
-		graphQL = GraphQL.newGraphQL(schema).build();
+		try (InputStream inputStream = resource.getInputStream()) {
+			TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(inputStream));
+			RuntimeWiring wiring = buildRuntimeWiring();
+			GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
+			graphQL = GraphQL.newGraphQL(schema).build();
+		}
 	}
 
 	private RuntimeWiring buildRuntimeWiring() {
@@ -56,13 +58,13 @@ public class GraphQLService {
 				.build();
 	}
 
-	static CouponsParameters generateParametersData(DataFetchingEnvironment dataFetchingEnvironment) {
+	static CouponsParameters generateParametersData(DataFetchingEnvironment env) {
 		return CouponsParameters.builder()
-				.person(dataFetchingEnvironment.getArgument("month"))
-				.person(dataFetchingEnvironment.getArgument("validity"))
-				.person(dataFetchingEnvironment.getArgument("type"))
-				.person(dataFetchingEnvironment.getArgument("year"))
-				.person(dataFetchingEnvironment.getArgument("person"))
+				.month(env.getArgument("month"))
+				.validity(env.getArgument("validity"))
+				.sellType(env.getArgument("type"))
+				.year(env.getArgument("year"))
+				.person(env.getArgument("person"))
 				.build();
 	}
 }
