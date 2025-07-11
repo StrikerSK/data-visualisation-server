@@ -3,12 +3,14 @@ package com.charts.general.entity.parameters;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
 import static com.charts.general.entity.constants.EnumerationConstants.YEAR_LIST;
 
+@SuperBuilder
 public abstract class AbstractParameters {
 
     private final List<String> month;

@@ -1,6 +1,6 @@
-package com.javapid.service.graphql;
+package com.charts.nivo.service.graphql;
 
-import com.javapid.entity.PidCouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import graphql.GraphQL;
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
@@ -8,15 +8,17 @@ import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
 @Service
+@Getter
 public class GraphQLService {
 
 	@Value("classpath:schema.graphql")
@@ -46,7 +48,6 @@ public class GraphQLService {
 	}
 
 	private RuntimeWiring buildRuntimeWiring() {
-
 		return RuntimeWiring.newRuntimeWiring()
 				.type("Query", typeWiring -> typeWiring
 						.dataFetcher("nivoBarData", nivoBarDataFetcher)
@@ -55,17 +56,13 @@ public class GraphQLService {
 				.build();
 	}
 
-	public GraphQL getGraphQL() {
-		return graphQL;
-	}
-
-	static PidCouponsParameters generateParametersData(DataFetchingEnvironment dataFetchingEnvironment) {
-		PidCouponsParameters parameters = new PidCouponsParameters();
-		parameters.setMonth(dataFetchingEnvironment.getArgument("months"));
-		parameters.setValidity(dataFetchingEnvironment.getArgument("validity"));
-		parameters.setSellType(dataFetchingEnvironment.getArgument("sellType"));
-		parameters.setYear(dataFetchingEnvironment.getArgument("year"));
-		parameters.setPerson(dataFetchingEnvironment.getArgument("person"));
-		return parameters;
+	static CouponsParameters generateParametersData(DataFetchingEnvironment dataFetchingEnvironment) {
+		return CouponsParameters.builder()
+				.person(dataFetchingEnvironment.getArgument("month"))
+				.person(dataFetchingEnvironment.getArgument("validity"))
+				.person(dataFetchingEnvironment.getArgument("type"))
+				.person(dataFetchingEnvironment.getArgument("year"))
+				.person(dataFetchingEnvironment.getArgument("person"))
+				.build();
 	}
 }

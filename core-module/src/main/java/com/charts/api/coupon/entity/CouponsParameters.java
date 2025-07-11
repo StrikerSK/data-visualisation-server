@@ -4,9 +4,11 @@ import com.charts.api.coupon.entity.enums.types.PersonType;
 import com.charts.api.coupon.entity.enums.types.SellType;
 import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.general.entity.parameters.AbstractParameters;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+@SuperBuilder
 public class CouponsParameters extends AbstractParameters {
 
     private final List<String> validity;
