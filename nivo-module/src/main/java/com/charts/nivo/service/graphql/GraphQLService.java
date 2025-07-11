@@ -1,8 +1,6 @@
 package com.charts.nivo.service.graphql;
 
 import com.charts.api.coupon.entity.CouponsParameters;
-import com.charts.nivo.entity.NivoLineData;
-import com.charts.nivo.entity.NivoPieData;
 import graphql.GraphQL;
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
@@ -11,7 +9,6 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -20,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Getter
@@ -33,11 +32,13 @@ public class GraphQLService {
 	private final NivoBarDataFetcher nivoBarDataFetcher;
 	private final NivoLineDataFetcher nivoLineDataFetcher;
 	private final NivoPieDataFetcher nivoPieDataFetcher;
+	private final PersonBarDataFetcher personBarDataFetcher;
 
-	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher) {
+	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher	) {
 		this.nivoBarDataFetcher = nivoBarDataFetcher;
 		this.nivoLineDataFetcher = nivoLineDataFetcher;
 		this.nivoPieDataFetcher = nivoPieDataFetcher;
+		this.personBarDataFetcher = personBarDataFetcher;
 	}
 
 	@PostConstruct
@@ -51,23 +52,23 @@ public class GraphQLService {
 	}
 
 	private RuntimeWiring buildRuntimeWiring() {
+		List<String> persons = List.of("Deti", "Juniori", "Študenti", "Dospelý", "Dôchodcovia", "Prenosná");
+
 		return RuntimeWiring.newRuntimeWiring()
 				.type("Query", typeWiring -> typeWiring
 						.dataFetcher("nivoBarData", nivoBarDataFetcher)
 						.dataFetcher("nivoLineData", nivoLineDataFetcher)
 						.dataFetcher("nivoPieData", nivoPieDataFetcher)
-						.dataFetcher("PersonBarData", per)
+						.dataFetcher("PersonBarData", personBarDataFetcher)
 				)
-				.type("NivoBarData", typeWiring -> typeWiring.typeResolver(env -> {
-					Object javaObject = env.getObject();
-					if (javaObject instanceof NivoB) {
+				.type("NivoBarData", builder -> builder.typeResolver(env -> {
+					Map<String, Object> map = env.getObject();
+					if (persons.stream().anyMatch(map::containsKey)) {
 						return env.getSchema().getObjectType("PersonBarData");
-					} else if (javaObject instanceof NivoLineData) {
-						return env.getSchema().getObjectType("PersonBarData");
-					} else if (javaObject instanceof NivoPieData) {
-						return env.getSchema().getObjectType("NivoPieData");
+					} else if (map.containsKey("january")) {
+						return env.getSchema().getObjectType("MonthBarData");
 					}
-					return null; // or throw exception if unknown
+					return null;
 				}))
 				.build();
 	}
