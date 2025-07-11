@@ -3,18 +3,29 @@ schema {
 }
 
 type Query {
-    nivoBarData(upperGroup: String, lowerGroup: String, month:[String], validity:[String], type: [String], year: [String], person: [String]): [BarData]
-    nivoLineData(upperGroup: String, lowerGroup: String, month:[String], validity:[String], type: [String], year: [String], person: [String]): [LineData]
-    nivoPieData(grouping: String, month:[String], validity:[String], type: [String], year: [String], person: [String]): [PieData]
+    nivoBarData(outputType: String!, upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [NivoBarData]
+    nivoLineData(upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [LineData]
+    nivoPieData(grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [PieData]
 }
 
-type BarData {
+union NivoBarData = PersonBarData | MonthBarData
+
+type PersonBarData {
     label: String
     adults: Int
     seniors: Int
     juniors: Int
     portable: Int
     students: Int
+}
+
+type MonthBarData {
+    label: String
+    january: Int
+    february: Int
+    march: Int
+    april: Int
+    may: Int
 }
 
 type LineData {

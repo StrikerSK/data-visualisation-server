@@ -1,6 +1,8 @@
 package com.charts.nivo.service.graphql;
 
 import com.charts.api.coupon.entity.CouponsParameters;
+import com.charts.nivo.entity.NivoLineData;
+import com.charts.nivo.entity.NivoPieData;
 import graphql.GraphQL;
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
@@ -9,6 +11,7 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -28,9 +31,7 @@ public class GraphQLService {
 	private GraphQL graphQL;
 
 	private final NivoBarDataFetcher nivoBarDataFetcher;
-
 	private final NivoLineDataFetcher nivoLineDataFetcher;
-
 	private final NivoPieDataFetcher nivoPieDataFetcher;
 
 	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher) {
@@ -54,7 +55,20 @@ public class GraphQLService {
 				.type("Query", typeWiring -> typeWiring
 						.dataFetcher("nivoBarData", nivoBarDataFetcher)
 						.dataFetcher("nivoLineData", nivoLineDataFetcher)
-						.dataFetcher("nivoPieData", nivoPieDataFetcher))
+						.dataFetcher("nivoPieData", nivoPieDataFetcher)
+						.dataFetcher("PersonBarData", per)
+				)
+				.type("NivoBarData", typeWiring -> typeWiring.typeResolver(env -> {
+					Object javaObject = env.getObject();
+					if (javaObject instanceof NivoB) {
+						return env.getSchema().getObjectType("PersonBarData");
+					} else if (javaObject instanceof NivoLineData) {
+						return env.getSchema().getObjectType("PersonBarData");
+					} else if (javaObject instanceof NivoPieData) {
+						return env.getSchema().getObjectType("NivoPieData");
+					}
+					return null; // or throw exception if unknown
+				}))
 				.build();
 	}
 

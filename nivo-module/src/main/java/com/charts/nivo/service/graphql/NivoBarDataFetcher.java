@@ -23,4 +23,18 @@ public class NivoBarDataFetcher implements DataFetcher<NivoBubbleData> {
 		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
 		return couponsService.createDynamicBubbleData(upperGroup, lowerGroup, generateParametersData(dataFetchingEnvironment));
 	}
+
+	private final DataFetcher<Object> nivoDataFetcher = environment -> {
+		String type = environment.getArgument("type");
+		switch (type) {
+			case "bar":
+				return nivoBarDataFetcher.get(environment);  // return NivoBarData instance
+			case "line":
+				return nivoLineDataFetcher.get(environment); // return NivoLineData instance
+			case "pie":
+				return nivoPieDataFetcher.get(environment);  // return NivoPieData instance
+			default:
+				return null;
+		}
+	};
 }
