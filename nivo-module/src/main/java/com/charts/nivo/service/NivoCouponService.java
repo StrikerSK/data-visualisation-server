@@ -31,27 +31,19 @@ public class NivoCouponService {
     private final CouponV2Service couponService;
 
     public List<NivoPieData> createDynamicPieData(String groupName, CouponsParameters parameters) {
-        List<NivoPieData> convertedData;
-
-        switch (groupName.toLowerCase()) {
-            case PERSON_GROUP:
-                convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByPersonType(parameters));
-                break;
-            case MONTH_GROUP:
-                convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByMonth(parameters));
-                break;
-            case SELL_GROUP:
-                convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedBySellType(parameters));
-                break;
-            case VALIDITY_GROUP:
-                convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByValidity(parameters));
-                break;
-            case YEAR_GROUP:
-                convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByYear(parameters));
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown group name: " + groupName);
-        }
+        List<NivoPieData> convertedData = switch (groupName.toLowerCase()) {
+            case PERSON_GROUP ->
+                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByPersonType(parameters));
+            case MONTH_GROUP ->
+                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByMonth(parameters));
+            case SELL_GROUP ->
+                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedBySellType(parameters));
+            case VALIDITY_GROUP ->
+                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByValidity(parameters));
+            case YEAR_GROUP ->
+                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByYear(parameters));
+            default -> throw new IllegalArgumentException("Unknown group name: " + groupName);
+        };
 
         convertedData.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
         return convertedData;

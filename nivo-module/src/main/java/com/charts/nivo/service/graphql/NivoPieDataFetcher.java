@@ -7,6 +7,7 @@ import graphql.schema.DataFetchingEnvironment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.charts.nivo.service.graphql.GraphQLService.generateParametersData;
 
@@ -21,7 +22,8 @@ public class NivoPieDataFetcher implements DataFetcher<List<NivoPieData>> {
 
 	@Override
 	public List<NivoPieData> get(DataFetchingEnvironment dataFetchingEnvironment) {
-		return couponsService.createDynamicPieData("year", generateParametersData(dataFetchingEnvironment));
+		Optional<String> grouping = Optional.ofNullable(dataFetchingEnvironment.getArgument("grouping"));
+		return couponsService.createDynamicPieData(grouping.orElse("Person"), generateParametersData(dataFetchingEnvironment));
 	}
 
 }

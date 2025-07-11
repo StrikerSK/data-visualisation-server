@@ -21,7 +21,9 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
 
 	@Override
 	public List<NivoLineData> get(DataFetchingEnvironment dataFetchingEnvironment) {
-		return couponsService.createDynamicLineData("year", "month", generateParametersData(dataFetchingEnvironment));
+		String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
+		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+		return couponsService.createDynamicLineData(upperGroup, lowerGroup, generateParametersData(dataFetchingEnvironment));
 	}
 
 }

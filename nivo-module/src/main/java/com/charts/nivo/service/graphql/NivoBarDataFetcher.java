@@ -19,6 +19,8 @@ public class NivoBarDataFetcher implements DataFetcher<NivoBubbleData> {
 
 	@Override
 	public NivoBubbleData get(DataFetchingEnvironment dataFetchingEnvironment) {
-		return couponsService.createDynamicBubbleData("year", "month", generateParametersData(dataFetchingEnvironment));
+		String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
+		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+		return couponsService.createDynamicBubbleData(upperGroup, lowerGroup, generateParametersData(dataFetchingEnvironment));
 	}
 }
