@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-import static com.charts.nivo.service.graphql.GraphQLService.generateParametersData;
-
 @Component
 public class NivoPieDataFetcher implements DataFetcher<List<NivoPieData>> {
 
@@ -23,7 +21,7 @@ public class NivoPieDataFetcher implements DataFetcher<List<NivoPieData>> {
 	@Override
 	public List<NivoPieData> get(DataFetchingEnvironment dataFetchingEnvironment) {
 		Optional<String> grouping = Optional.ofNullable(dataFetchingEnvironment.getArgument("grouping"));
-		return couponsService.createDynamicPieData(grouping.orElse("Person"), generateParametersData(dataFetchingEnvironment));
+		return couponsService.createDynamicPieData(grouping.orElse("Person"), GraphParameters.generateParametersData(dataFetchingEnvironment));
 	}
 
 }

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static com.charts.nivo.service.graphql.GraphQLService.generateParametersData;
-
 @Component
 public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
 
@@ -24,7 +22,7 @@ public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Month", generateParametersData(dataFetchingEnvironment));
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Month", GraphParameters.generateParametersData(dataFetchingEnvironment));
         return GraphFetcherUtil.fetchValue(output, Months.class);
     }
 

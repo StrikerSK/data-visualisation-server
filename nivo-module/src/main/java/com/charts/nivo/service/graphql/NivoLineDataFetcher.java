@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.charts.nivo.service.graphql.GraphQLService.generateParametersData;
-
 @Component
 public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
 
@@ -23,7 +21,7 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
 	public List<NivoLineData> get(DataFetchingEnvironment dataFetchingEnvironment) {
 		String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
 		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
-		return couponsService.createDynamicLineData(upperGroup, lowerGroup, generateParametersData(dataFetchingEnvironment));
+		return couponsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.generateParametersData(dataFetchingEnvironment));
 	}
 
 }

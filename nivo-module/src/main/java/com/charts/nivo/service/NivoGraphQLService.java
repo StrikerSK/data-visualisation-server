@@ -1,8 +1,11 @@
-package com.charts.nivo.service.graphql;
+package com.charts.nivo.service;
 
-import com.charts.api.coupon.entity.CouponsParameters;
+import com.charts.nivo.service.graphql.MonthBarDataFetcher;
+import com.charts.nivo.service.graphql.NivoBarDataFetcher;
+import com.charts.nivo.service.graphql.NivoLineDataFetcher;
+import com.charts.nivo.service.graphql.NivoPieDataFetcher;
+import com.charts.nivo.service.graphql.PersonBarDataFetcher;
 import graphql.GraphQL;
-import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -20,7 +23,7 @@ import java.io.InputStreamReader;
 
 @Service
 @Getter
-public class GraphQLService {
+public class NivoGraphQLService {
 
 	@Value("classpath:schema.graphqls")
 	Resource resource;
@@ -33,7 +36,11 @@ public class GraphQLService {
 	private final PersonBarDataFetcher personBarDataFetcher;
 	private final MonthBarDataFetcher monthBarDataFetcher;
 
-	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher, MonthBarDataFetcher monthBarDataFetcher) {
+	public NivoGraphQLService(
+			NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher,
+			NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher,
+			MonthBarDataFetcher monthBarDataFetcher
+	) {
 		this.nivoBarDataFetcher = nivoBarDataFetcher;
 		this.nivoLineDataFetcher = nivoLineDataFetcher;
 		this.nivoPieDataFetcher = nivoPieDataFetcher;
@@ -68,16 +75,6 @@ public class GraphQLService {
                         default -> null;
                     };
 				}))
-				.build();
-	}
-
-	static CouponsParameters generateParametersData(DataFetchingEnvironment env) {
-		return CouponsParameters.builder()
-				.month(env.getArgument("month"))
-				.validity(env.getArgument("validity"))
-				.sellType(env.getArgument("type"))
-				.year(env.getArgument("year"))
-				.person(env.getArgument("person"))
 				.build();
 	}
 

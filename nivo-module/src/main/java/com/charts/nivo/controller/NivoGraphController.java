@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.nivo.service.graphql.GraphQLService;
+import com.charts.nivo.service.NivoGraphQLService;
 import graphql.ExecutionResult;
 import graphql.servlet.internal.GraphQLRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +20,15 @@ public class NivoGraphController {
     @Value("classpath:graphql/schema.graphqls")
     private Resource schemaResource;
 
-    private final GraphQLService graphQLService;
+    private final NivoGraphQLService nivoGraphQLService;
 
-    public NivoGraphController(GraphQLService graphQLService) {
-        this.graphQLService = graphQLService;
+    public NivoGraphController(NivoGraphQLService nivoGraphQLService) {
+        this.nivoGraphQLService = nivoGraphQLService;
     }
 
     @PostMapping(path = "/graphql", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> executeGraphQL(@RequestBody GraphQLRequest request) {
-        ExecutionResult result = graphQLService.getGraphQL()
+        ExecutionResult result = nivoGraphQLService.getGraphQL()
                 .execute(builder -> builder
                         .query(request.getQuery())
                         .variables(request.getVariables() != null ? request.getVariables() : Map.of())
