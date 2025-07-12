@@ -7,6 +7,7 @@ import lombok.Data;
 public class EnumAdapter implements IEnum {
 
     private String value;
+    private String systemValue;
     private Integer orderValue;
 
     public EnumAdapter(Integer value) {
@@ -16,6 +17,12 @@ public class EnumAdapter implements IEnum {
 
     public EnumAdapter(String value, Integer orderValue) {
         this.value = value;
+        this.orderValue = orderValue;
+    }
+
+    public EnumAdapter(String value, String systemValue, Integer orderValue) {
+        this.value = value;
+        this.systemValue = systemValue;
         this.orderValue = orderValue;
     }
 

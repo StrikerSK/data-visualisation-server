@@ -10,15 +10,17 @@ import static com.charts.api.coupon.constants.EnumerationCouponConstants.PAPER_C
 @Getter
 public enum SellType implements IEnum {
 
-    CARD(CHIP_CARD, 1),
-    COUPON(PAPER_COUPON, 2),
-    ESHOP(E_SHOP, 3);
+    CARD(CHIP_CARD, "chip_card", 1),
+    COUPON(PAPER_COUPON, "paper_coupon", 2),
+    ESHOP(E_SHOP, "e_shop", 3);
 
     private final String value;
+    private final String systemValue;
     private final Integer orderValue;
 
-    SellType(String value, Integer orderValue) {
+    SellType(String value, String systemValue, Integer orderValue) {
         this.value = value;
+        this.systemValue = systemValue;
         this.orderValue = orderValue;
     }
 

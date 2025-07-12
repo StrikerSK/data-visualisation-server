@@ -16,18 +16,20 @@ import static com.charts.api.coupon.constants.EnumerationCouponConstants.STUDENT
 @Getter
 public enum PersonType implements IEnum {
 
-    ADULT(ADULT_VALUE, 4),
-    SENIOR(SENIOR_VALUE, 5),
-    JUNIOR(JUNIOR_VALUE, 2),
-    PORTABLE(PORTABLE_VALUE, 6),
-    STUDENT(STUDENT_VALUE, 3),
-    CHILDREN(CHILDREN_VALUE, 1);
+    ADULT(ADULT_VALUE, "adults", 4),
+    SENIOR(SENIOR_VALUE, "seniors", 5),
+    JUNIOR(JUNIOR_VALUE, "juniors", 2),
+    PORTABLE(PORTABLE_VALUE, "portables", 6),
+    STUDENT(STUDENT_VALUE, "students", 3),
+    CHILDREN(CHILDREN_VALUE, "children", 1);
 
     private final String value;
+    private final String systemValue;
     private final Integer orderValue;
 
-    PersonType(String value, Integer orderValue) {
+    PersonType(String value, String systemValue, Integer orderValue) {
         this.value = value;
+        this.systemValue = systemValue;
         this.orderValue = orderValue;
     }
 
@@ -35,6 +37,12 @@ public enum PersonType implements IEnum {
         return Arrays.stream(PersonType.values())
                 .filter(c -> c.getValue().equals(label))
                 .findFirst();
+    }
+
+    public static String convertPersonType(String label) {
+        return Arrays.stream(PersonType.values())
+                .filter(c -> c.getValue().equals(label))
+                .findFirst().get().getSystemValue();
     }
 
 }
