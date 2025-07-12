@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.graphql.MonthBarDataFetcher;
 import com.charts.nivo.service.graphql.NivoBarDataFetcher;
 import com.charts.nivo.service.graphql.NivoLineDataFetcher;
@@ -16,6 +17,7 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ import java.io.InputStreamReader;
 
 @Service
 @Getter
+@Conditional(GraphCondition.class)
 public class NivoGraphQLService {
 
 	@Value("classpath:schema.graphqls")

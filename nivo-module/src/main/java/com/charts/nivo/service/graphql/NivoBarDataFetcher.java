@@ -1,13 +1,16 @@
 package com.charts.nivo.service.graphql;
 
+import com.charts.nivo.configuration.GraphCondition;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
+@Conditional(GraphCondition.class)
 public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
 
 	private final PersonBarDataFetcher personBarDataFetcher;

@@ -1,9 +1,11 @@
 package com.charts.nivo.controller;
 
+import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.NivoGraphQLService;
 import graphql.ExecutionResult;
 import graphql.kickstart.execution.GraphQLRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/nivo")
+@Conditional(GraphCondition.class)
 public class NivoGraphController {
 
     @Value("classpath:graphql/schema.graphqls")
