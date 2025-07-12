@@ -1,6 +1,7 @@
 package com.charts.nivo.service.graphql;
 
-import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.types.Months;
 import com.charts.nivo.service.NivoCouponService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -33,8 +34,7 @@ public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>
                         String originalKey = entry.getKey();
                         if (!originalKey.equals("label")) {
                             Object value = entry.getValue();
-
-                            String modifiedKey = PersonType.convertPersonType(originalKey);
+                            String modifiedKey = EnumUtils.getSystemValue(Months.class, originalKey);
                             newMap.put(modifiedKey, value);
                         }
                     }

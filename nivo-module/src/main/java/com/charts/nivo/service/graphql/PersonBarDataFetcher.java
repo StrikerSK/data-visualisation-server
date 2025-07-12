@@ -1,6 +1,7 @@
 package com.charts.nivo.service.graphql;
 
 import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.general.entity.enums.EnumUtils;
 import com.charts.nivo.service.NivoCouponService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -33,10 +34,7 @@ public class PersonBarDataFetcher implements DataFetcher<List<Map<String, Object
                         String originalKey = entry.getKey();
                         if (!"label".equals(originalKey)) {
                             Object value = entry.getValue();
-
-                            // Modify the key here
-                            String modifiedKey = PersonType.convertPersonType(originalKey);
-
+                            String modifiedKey = EnumUtils.getSystemValue(PersonType.class, originalKey);
                             newMap.put(modifiedKey, value);
                         }
                     }

@@ -34,9 +34,19 @@ public class EnumUtils {
         return EnumUtils.getValue(clazz, label).orElseThrow(() -> new IllegalArgumentException("Unknown label " + label));
     }
 
+    public static <T extends IEnum> String getSystemValue(Class<T> clazz, String label) {
+        return fromValue(clazz, label).getSystemValue();
+    }
+
     public static <T extends IEnum> List<String> getStringValues(Class<T> clazz) {
         return getValueList(clazz).stream()
                 .map(IEnum::getValue)
+                .collect(Collectors.toList());
+    }
+
+    public static <T extends IEnum> List<String> getSystemValues(Class<T> clazz) {
+        return getValueList(clazz).stream()
+                .map(IEnum::getSystemValue)
                 .collect(Collectors.toList());
     }
 
