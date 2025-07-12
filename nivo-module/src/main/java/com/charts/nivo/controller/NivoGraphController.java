@@ -2,7 +2,7 @@ package com.charts.nivo.controller;
 
 import com.charts.nivo.service.NivoGraphQLService;
 import graphql.ExecutionResult;
-import graphql.servlet.internal.GraphQLRequest;
+import graphql.kickstart.execution.GraphQLRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
