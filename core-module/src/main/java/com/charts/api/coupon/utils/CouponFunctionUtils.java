@@ -12,7 +12,7 @@ import java.util.function.Function;
 public class CouponFunctionUtils extends AbstractFunctionUtils {
 
     public static final String PERSON_GROUP = "person";
-    public static final String SELL_GROUP = "sell";
+    public static final String SELL_GROUP = "type";
     public static final String VALIDITY_GROUP = "validity";
 
     @SuppressWarnings("unchecked")

@@ -8,7 +8,7 @@ type Query {
     nivoPieData(grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [PieData]
 }
 
-union NivoBarData = PersonBarData | MonthBarData
+union NivoBarData = PersonBarData | MonthBarData | ValidityBarData | SellTypeBarData
 
 type PersonBarData {
     label: String
@@ -34,6 +34,21 @@ type MonthBarData {
     october: Int
     november: Int
     december: Int
+}
+
+type ValidityBarData {
+    label: String
+    one_month: Int
+    three_months: Int
+    five_months: Int
+    one_year: Int
+}
+
+type SellTypeBarData {
+    label: String
+    chip_card: Int
+    paper_coupon: Int
+    e_shop: Int
 }
 
 type LineData {
