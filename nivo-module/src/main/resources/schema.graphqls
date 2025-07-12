@@ -8,7 +8,7 @@ type Query {
     nivoPieData(kind: String!, grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String], ticketType: [String], discounted: Boolean): [PieData]
 }
 
-union NivoBarData = PersonBarData | MonthBarData | ValidityBarData | SellTypeBarData
+union NivoBarData = PersonBarData | MonthBarData | ValidityBarData | SellTypeBarData | TicketBarData
 
 type PersonBarData {
     label: String
@@ -34,6 +34,23 @@ type MonthBarData {
     october: Int
     november: Int
     december: Int
+}
+
+type TicketBarData {
+    label: String
+    fifteen_minutes: Int
+    one_day: Int
+    one_day_all: Int
+    two_zones: Int
+    three_zones: Int
+    four_zones: Int
+    five_zones: Int
+    six_zones: Int
+    seven_zones: Int
+    eight_zones: Int
+    nine_zones: Int
+    ten_zones: Int
+    eleven_zones: Int
 }
 
 type ValidityBarData {

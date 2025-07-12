@@ -17,15 +17,18 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
 	private final MonthBarDataFetcher monthBarDataFetcher;
 	private final ValidityBarDataFetcher validityBarDataFetcher;
 	private final SellTypeBarDataFetcher sellTypeBarDataFetcher;
+	private final TicketBarDataFetcher ticketBarDataFetcher;
 
 	public NivoBarDataFetcher(
 			PersonBarDataFetcher personBarDataFetcher, MonthBarDataFetcher monthBarDataFetcher,
-			ValidityBarDataFetcher validityBarDataFetcher, SellTypeBarDataFetcher sellTypeBarDataFetcher
+			ValidityBarDataFetcher validityBarDataFetcher, SellTypeBarDataFetcher sellTypeBarDataFetcher,
+			TicketBarDataFetcher ticketBarDataFetcher
 	) {
 		this.personBarDataFetcher = personBarDataFetcher;
 		this.monthBarDataFetcher = monthBarDataFetcher;
 		this.validityBarDataFetcher = validityBarDataFetcher;
 		this.sellTypeBarDataFetcher = sellTypeBarDataFetcher;
+		this.ticketBarDataFetcher = ticketBarDataFetcher;
 	}
 
 	@Override
@@ -36,6 +39,7 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
             case "month" -> monthBarDataFetcher.get(dataFetchingEnvironment);
             case "validity" -> validityBarDataFetcher.get(dataFetchingEnvironment);
             case "type" -> sellTypeBarDataFetcher.get(dataFetchingEnvironment);
+            case "ticket" -> ticketBarDataFetcher.get(dataFetchingEnvironment);
             default -> null;
         };
 	}

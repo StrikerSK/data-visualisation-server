@@ -1,13 +1,7 @@
 package com.charts.nivo.service;
 
 import com.charts.nivo.configuration.GraphCondition;
-import com.charts.nivo.service.graphql.MonthBarDataFetcher;
-import com.charts.nivo.service.graphql.NivoBarDataFetcher;
-import com.charts.nivo.service.graphql.NivoLineDataFetcher;
-import com.charts.nivo.service.graphql.NivoPieDataFetcher;
-import com.charts.nivo.service.graphql.PersonBarDataFetcher;
-import com.charts.nivo.service.graphql.SellTypeBarDataFetcher;
-import com.charts.nivo.service.graphql.ValidityBarDataFetcher;
+import com.charts.nivo.service.graphql.*;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -30,6 +24,7 @@ import java.io.InputStreamReader;
 @Conditional(GraphCondition.class)
 public class NivoGraphQLService {
 
+	private final TicketBarDataFetcher ticketBarDataFetcher;
 	@Value("classpath:schema.graphqls")
 	Resource resource;
 
@@ -47,7 +42,7 @@ public class NivoGraphQLService {
 			NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher,
 			NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher,
 			MonthBarDataFetcher monthBarDataFetcher, ValidityBarDataFetcher validityBarDataFetcher,
-			SellTypeBarDataFetcher sellTypeBarDataFetcher
+			SellTypeBarDataFetcher sellTypeBarDataFetcher, TicketBarDataFetcher ticketBarDataFetcher
 	) {
 		this.nivoBarDataFetcher = nivoBarDataFetcher;
 		this.nivoLineDataFetcher = nivoLineDataFetcher;
@@ -56,6 +51,7 @@ public class NivoGraphQLService {
 		this.monthBarDataFetcher = monthBarDataFetcher;
 		this.validityBarDataFetcher = validityBarDataFetcher;
 		this.sellTypeBarDataFetcher = sellTypeBarDataFetcher;
+		this.ticketBarDataFetcher = ticketBarDataFetcher;
 	}
 
 	@PostConstruct
@@ -78,6 +74,7 @@ public class NivoGraphQLService {
 						.dataFetcher("PersonBarData", personBarDataFetcher)
 						.dataFetcher("ValidityBarData", validityBarDataFetcher)
 						.dataFetcher("SellTypeBarData", sellTypeBarDataFetcher)
+						.dataFetcher("TicketBarData", ticketBarDataFetcher)
 				)
 				.type("NivoBarData", builder -> builder.typeResolver(env -> {
 					String lowerGroup = env.getArguments().get("lowerGroup").toString().toLowerCase();
@@ -86,6 +83,7 @@ public class NivoGraphQLService {
                         case "month" -> env.getSchema().getObjectType("MonthBarData");
                         case "validity" -> env.getSchema().getObjectType("ValidityBarData");
                         case "type" -> env.getSchema().getObjectType("SellTypeBarData");
+						case "ticket"  -> env.getSchema().getObjectType("TicketBarData");
                         default -> null;
                     };
 				}))

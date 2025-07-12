@@ -19,6 +19,8 @@ public class GraphFetcherUtil {
                         if (!"label".equals(originalKey)) {
                             String systemValue = EnumUtils.getSystemValue(clazz, originalKey);
                             newMap.put(systemValue, entry.getValue());
+                        } else {
+                            newMap.put(originalKey, entry.getValue());
                         }
                     }
                     return newMap;

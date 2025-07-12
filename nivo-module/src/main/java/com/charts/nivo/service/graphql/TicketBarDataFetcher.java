@@ -1,9 +1,9 @@
 package com.charts.nivo.service.graphql;
 
-import com.charts.api.coupon.entity.enums.types.PersonType;
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.nivo.configuration.GraphCondition;
+import com.charts.nivo.service.NivoTicketsService;
 import com.charts.nivo.utils.GraphFetcherUtil;
-import com.charts.nivo.service.NivoCouponService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.AllArgsConstructor;
@@ -16,15 +16,15 @@ import java.util.Map;
 @Component
 @AllArgsConstructor
 @Conditional(GraphCondition.class)
-public class PersonBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
+public class TicketBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
 
-    private final NivoCouponService couponsService;
+    private final NivoTicketsService ticketsService;
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Person", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
-        return GraphFetcherUtil.fetchValue(output, PersonType.class);
+        List<Map<String, Object>> output = ticketsService.createDynamicBarData(upperGroup, "Ticket", GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
+        return GraphFetcherUtil.fetchValue(output, TicketType.class);
     }
 
 }
