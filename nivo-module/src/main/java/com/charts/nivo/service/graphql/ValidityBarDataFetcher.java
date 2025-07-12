@@ -25,7 +25,7 @@ public class ValidityBarDataFetcher implements DataFetcher<List<Map<String, Obje
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Validity", GraphParameters.generateParametersData(dataFetchingEnvironment));
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Validity", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
         return GraphFetcherUtil.fetchValue(output, Validity.class);
     }
 

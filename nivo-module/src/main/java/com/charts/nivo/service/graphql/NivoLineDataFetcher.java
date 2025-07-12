@@ -27,8 +27,8 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
 		String kind = dataFetchingEnvironment.getArgument("kind");
 
 		return switch (kind) {
-			case "coupon" -> couponsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.generateParametersData(dataFetchingEnvironment));
-			case "ticket" -> ticketsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.generateTicketParameters(dataFetchingEnvironment));
+			case "coupon" -> couponsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
+			case "ticket" -> ticketsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
 			default -> null;
 		};
 	}

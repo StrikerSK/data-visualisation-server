@@ -6,7 +6,7 @@ import graphql.schema.DataFetchingEnvironment;
 
 class GraphParameters {
 
-    static CouponsParameters generateParametersData(DataFetchingEnvironment env) {
+    static CouponsParameters fetchCouponParameters(DataFetchingEnvironment env) {
         return CouponsParameters.builder()
                 .month(env.getArgument("month"))
                 .validity(env.getArgument("validity"))
@@ -16,7 +16,7 @@ class GraphParameters {
                 .build();
     }
 
-    static TicketsParameters generateTicketParameters(DataFetchingEnvironment env) {
+    static TicketsParameters fetchTicketParameters(DataFetchingEnvironment env) {
         return TicketsParameters.builder()
                 .month(env.getArgument("month"))
                 .year(env.getArgument("year"))

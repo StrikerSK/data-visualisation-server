@@ -53,12 +53,7 @@ public class NivoConvertersUtils {
                             .entrySet()
                             .stream()
                             .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), AbstractGroupingUtils.aggregateGroupSum(lower.getValue())))
-                            .collect(Collectors.toMap(
-                                    Map.Entry::getKey,
-                                    Map.Entry::getValue,
-                                    (e1, e2) -> e1,
-                                    LinkedHashMap::new
-                            ));
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
                     outputMap.put("label", upper.getKey().getValue());
                     return outputMap;
                 })

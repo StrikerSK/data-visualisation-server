@@ -27,8 +27,8 @@ public class NivoPieDataFetcher implements DataFetcher<List<NivoPieData>> {
 		Optional<String> grouping = Optional.ofNullable(dataFetchingEnvironment.getArgument("grouping"));
 
 		return switch (kind.orElse("")) {
-			case "coupon" -> couponsService.createDynamicPieData(grouping.orElse("Person"), GraphParameters.generateParametersData(dataFetchingEnvironment));
-			case "ticket" -> ticketsService.createDynamicPieData(grouping.orElse("Ticket"), GraphParameters.generateTicketParameters(dataFetchingEnvironment));
+			case "coupon" -> couponsService.createDynamicPieData(grouping.orElse("Person"), GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
+			case "ticket" -> ticketsService.createDynamicPieData(grouping.orElse("Ticket"), GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
 			default -> null;
 		};
 	}

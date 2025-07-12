@@ -25,7 +25,7 @@ public class SellTypeBarDataFetcher implements DataFetcher<List<Map<String, Obje
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Type", GraphParameters.generateParametersData(dataFetchingEnvironment));
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Type", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
         return GraphFetcherUtil.fetchValue(output, SellType.class);
     }
 
