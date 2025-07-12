@@ -14,29 +14,27 @@ import java.util.stream.Collectors;
 import static com.charts.nivo.service.graphql.GraphQLService.generateParametersData;
 
 @Component
-public class PersonBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
+public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>>> {
 
     private final NivoCouponService couponsService;
 
-    public PersonBarDataFetcher(NivoCouponService couponsService) {
+    public MonthBarDataFetcher(NivoCouponService couponsService) {
         this.couponsService = couponsService;
     }
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String grouping = dataFetchingEnvironment.getArgument("grouping");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(grouping, "Person", generateParametersData(dataFetchingEnvironment));
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(grouping, "Month", generateParametersData(dataFetchingEnvironment));
         return output.stream()
                 .map(originalMap -> {
                     Map<String, Object> newMap = new HashMap<>();
                     for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
                         String originalKey = entry.getKey();
-                        if (!"label".equals(originalKey)) {
+                        if (!originalKey.equals("label")) {
                             Object value = entry.getValue();
 
-                            // Modify the key here
                             String modifiedKey = PersonType.convertPersonType(originalKey);
-
                             newMap.put(modifiedKey, value);
                         }
                     }

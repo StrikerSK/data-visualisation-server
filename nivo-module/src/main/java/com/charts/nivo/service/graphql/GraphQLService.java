@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @Getter
@@ -33,12 +31,14 @@ public class GraphQLService {
 	private final NivoLineDataFetcher nivoLineDataFetcher;
 	private final NivoPieDataFetcher nivoPieDataFetcher;
 	private final PersonBarDataFetcher personBarDataFetcher;
+	private final MonthBarDataFetcher monthBarDataFetcher;
 
-	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher	) {
+	public GraphQLService(NivoBarDataFetcher nivoBarDataFetcher, NivoLineDataFetcher nivoLineDataFetcher, NivoPieDataFetcher nivoPieDataFetcher, PersonBarDataFetcher personBarDataFetcher, MonthBarDataFetcher monthBarDataFetcher) {
 		this.nivoBarDataFetcher = nivoBarDataFetcher;
 		this.nivoLineDataFetcher = nivoLineDataFetcher;
 		this.nivoPieDataFetcher = nivoPieDataFetcher;
 		this.personBarDataFetcher = personBarDataFetcher;
+		this.monthBarDataFetcher = monthBarDataFetcher;
 	}
 
 	@PostConstruct
@@ -52,23 +52,23 @@ public class GraphQLService {
 	}
 
 	private RuntimeWiring buildRuntimeWiring() {
-		List<String> persons = List.of("Deti", "Juniori", "Študenti", "Dospelý", "Dôchodcovia", "Prenosná");
-
 		return RuntimeWiring.newRuntimeWiring()
 				.type("Query", typeWiring -> typeWiring
 						.dataFetcher("nivoBarData", nivoBarDataFetcher)
 						.dataFetcher("nivoLineData", nivoLineDataFetcher)
 						.dataFetcher("nivoPieData", nivoPieDataFetcher)
 						.dataFetcher("PersonBarData", personBarDataFetcher)
+						.dataFetcher("MonthBarData", monthBarDataFetcher)
 				)
 				.type("NivoBarData", builder -> builder.typeResolver(env -> {
-					Map<String, Object> map = env.getObject();
-					if (persons.stream().anyMatch(map::containsKey)) {
+					String barType = env.getArguments().get("barType").toString().toLowerCase();
+					if (barType.equals("person")) {
 						return env.getSchema().getObjectType("PersonBarData");
-					} else if (map.containsKey("january")) {
+					} else if (barType.equals("month")) {
 						return env.getSchema().getObjectType("MonthBarData");
-					}
-					return null;
+					} else {
+                        return null;
+                    }
 				}))
 				.build();
 	}
@@ -82,4 +82,5 @@ public class GraphQLService {
 				.person(env.getArgument("person"))
 				.build();
 	}
+
 }
