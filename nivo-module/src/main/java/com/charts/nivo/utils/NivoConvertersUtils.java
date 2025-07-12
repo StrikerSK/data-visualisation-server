@@ -1,4 +1,4 @@
-package com.charts.nivo.Utils;
+package com.charts.nivo.utils;
 
 import com.charts.general.entity.GroupingEntity;
 import com.charts.general.entity.AbstractUpdateEntity;

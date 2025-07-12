@@ -6,7 +6,7 @@ import com.charts.api.coupon.utils.CouponFunctionUtils;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.nivo.Utils.NivoConvertersUtils;
+import com.charts.nivo.utils.NivoConvertersUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
