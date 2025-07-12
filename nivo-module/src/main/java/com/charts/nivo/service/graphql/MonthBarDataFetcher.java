@@ -25,8 +25,8 @@ public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String grouping = dataFetchingEnvironment.getArgument("grouping");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(grouping, "Month", generateParametersData(dataFetchingEnvironment));
+        String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Month", generateParametersData(dataFetchingEnvironment));
         return output.stream()
                 .map(originalMap -> {
                     Map<String, Object> newMap = new HashMap<>();

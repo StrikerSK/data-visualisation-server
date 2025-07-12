@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
-    nivoBarData(barType: String!, grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [NivoBarData]
+    nivoBarData(upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [NivoBarData]
     nivoLineData(upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [LineData]
     nivoPieData(grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [PieData]
 }
@@ -27,6 +27,13 @@ type MonthBarData {
     march: Int
     april: Int
     may: Int
+    june: Int
+    july: Int
+    august: Int
+    september: Int
+    october: Int
+    november: Int
+    december: Int
 }
 
 type LineData {

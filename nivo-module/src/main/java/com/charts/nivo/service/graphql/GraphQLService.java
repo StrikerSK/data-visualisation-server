@@ -53,7 +53,7 @@ public class GraphQLService {
 
 	private RuntimeWiring buildRuntimeWiring() {
 		return RuntimeWiring.newRuntimeWiring()
-				.type("Query", typeWiring -> typeWiring
+				.type("Query", builder -> builder
 						.dataFetcher("nivoBarData", nivoBarDataFetcher)
 						.dataFetcher("nivoLineData", nivoLineDataFetcher)
 						.dataFetcher("nivoPieData", nivoPieDataFetcher)
@@ -61,14 +61,12 @@ public class GraphQLService {
 						.dataFetcher("MonthBarData", monthBarDataFetcher)
 				)
 				.type("NivoBarData", builder -> builder.typeResolver(env -> {
-					String barType = env.getArguments().get("barType").toString().toLowerCase();
-					if (barType.equals("person")) {
-						return env.getSchema().getObjectType("PersonBarData");
-					} else if (barType.equals("month")) {
-						return env.getSchema().getObjectType("MonthBarData");
-					} else {
-                        return null;
-                    }
+					String lowerGroup = env.getArguments().get("lowerGroup").toString().toLowerCase();
+                    return switch (lowerGroup) {
+                        case "person" -> env.getSchema().getObjectType("PersonBarData");
+                        case "month" -> env.getSchema().getObjectType("MonthBarData");
+                        default -> null;
+                    };
 				}))
 				.build();
 	}

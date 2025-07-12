@@ -25,8 +25,8 @@ public class PersonBarDataFetcher implements DataFetcher<List<Map<String, Object
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String grouping = dataFetchingEnvironment.getArgument("grouping");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(grouping, "Person", generateParametersData(dataFetchingEnvironment));
+        String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Person", generateParametersData(dataFetchingEnvironment));
         return output.stream()
                 .map(originalMap -> {
                     Map<String, Object> newMap = new HashMap<>();

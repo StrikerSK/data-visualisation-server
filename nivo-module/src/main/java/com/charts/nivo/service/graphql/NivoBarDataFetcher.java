@@ -20,8 +20,8 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
 
 	@Override
 	public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
-		String grouping = dataFetchingEnvironment.getArgument("barType");
-        return switch (grouping) {
+		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+        return switch (lowerGroup) {
             case "person" -> personBarDataFetcher.get(dataFetchingEnvironment);  // return NivoBarData instance
             case "month" -> monthBarDataFetcher.get(dataFetchingEnvironment); // return NivoLineData instance
             default -> null;
