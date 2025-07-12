@@ -3,9 +3,9 @@ schema {
 }
 
 type Query {
-    nivoBarData(upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [NivoBarData]
-    nivoLineData(upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [LineData]
-    nivoPieData(grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String]): [PieData]
+    nivoBarData(kind: String!, upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String], ticketType: [String], discounted: Boolean): [NivoBarData]
+    nivoLineData(kind: String!, upperGroup: String!, lowerGroup: String!, month:[String], validity:[String], type: [String], year: [String], person: [String], ticketType: [String], discounted: Boolean): [LineData]
+    nivoPieData(kind: String!, grouping: String!, month:[String], validity:[String], type: [String], year: [String], person: [String], ticketType: [String], discounted: Boolean): [PieData]
 }
 
 union NivoBarData = PersonBarData | MonthBarData | ValidityBarData | SellTypeBarData

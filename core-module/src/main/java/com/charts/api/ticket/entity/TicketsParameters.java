@@ -2,12 +2,14 @@ package com.charts.api.ticket.entity;
 
 import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.general.entity.parameters.AbstractParameters;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuperBuilder
 public class TicketsParameters extends AbstractParameters {
 
 	private final List<Boolean> discounted;
