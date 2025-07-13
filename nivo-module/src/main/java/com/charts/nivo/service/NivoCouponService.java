@@ -32,16 +32,11 @@ public class NivoCouponService {
 
     public List<NivoPieData> createDynamicPieData(String groupName, CouponsParameters parameters) {
         List<NivoPieData> convertedData = switch (groupName.toLowerCase()) {
-            case PERSON_GROUP ->
-                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByPersonType(parameters));
-            case MONTH_GROUP ->
-                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByMonth(parameters));
-            case SELL_GROUP ->
-                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedBySellType(parameters));
-            case VALIDITY_GROUP ->
-                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByValidity(parameters));
-            case YEAR_GROUP ->
-                    NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByYear(parameters));
+            case PERSON_GROUP -> NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByPersonType(parameters));
+            case MONTH_GROUP -> NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByMonth(parameters));
+            case SELL_GROUP -> NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedBySellType(parameters));
+            case VALIDITY_GROUP -> NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByValidity(parameters));
+            case YEAR_GROUP -> NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByYear(parameters));
             default -> throw new IllegalArgumentException("Unknown group name: " + groupName);
         };
 

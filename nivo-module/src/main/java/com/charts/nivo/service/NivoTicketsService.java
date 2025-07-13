@@ -30,26 +30,15 @@ public class NivoTicketsService {
 	private final TicketService ticketService;
 
 	public List<NivoPieData> createDynamicPieData(String groupName, TicketsParameters parameters) {
-		List<NivoPieData> convertedData;
+		List<NivoPieData> convertedData = switch (groupName.toLowerCase()) {
+            case TICKET_GROUP -> NivoConvertersUtils.createPieData(ticketService.getTicketsByTicketType(parameters));
+            case DISCOUNTED_GROUP -> NivoConvertersUtils.createPieData(ticketService.getTicketsByDiscounted(parameters));
+            case MONTH_GROUP -> NivoConvertersUtils.createPieData(ticketService.getTicketsByMonth(parameters));
+            case YEAR_GROUP -> NivoConvertersUtils.createPieData(ticketService.getTicketsByYear(parameters));
+            default -> throw new IllegalArgumentException("Unknown group name: " + groupName);
+        };
 
-		switch (groupName.toLowerCase()) {
-			case TICKET_GROUP:
-				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByTicketType(parameters));
-				break;
-			case DISCOUNTED_GROUP:
-				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByDiscounted(parameters));
-				break;
-			case MONTH_GROUP:
-				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByMonth(parameters));
-				break;
-			case YEAR_GROUP:
-				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByYear(parameters));
-				break;
-			default:
-				throw new IllegalArgumentException("Unknown group name: " + groupName);
-		}
-
-		convertedData.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
+        convertedData.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
 		return convertedData;
 	}
 
