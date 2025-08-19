@@ -1,5 +1,6 @@
 package com.charts.nivo.service.graphql;
 
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.api.coupon.entity.enums.types.SellType;
 import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.NivoCouponService;
@@ -22,8 +23,11 @@ public class SellTypeBarDataFetcher implements DataFetcher<List<Map<String, Obje
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
+        String lowerGroup = "Type";
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Type", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
+        CouponsParameters parameters = GraphParameters.fetchCouponParameters(dataFetchingEnvironment);
+
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, lowerGroup, parameters);
         return GraphFetcherUtil.fetchValue(output, SellType.class);
     }
 

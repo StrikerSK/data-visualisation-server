@@ -34,13 +34,18 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
 	@Override
 	public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
 		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+
+        if (lowerGroup == null) {
+            throw new IllegalStateException("Lower group is null");
+        }
+
         return switch (lowerGroup) {
             case "person" -> personBarDataFetcher.get(dataFetchingEnvironment);
             case "month" -> monthBarDataFetcher.get(dataFetchingEnvironment);
             case "validity" -> validityBarDataFetcher.get(dataFetchingEnvironment);
             case "type" -> sellTypeBarDataFetcher.get(dataFetchingEnvironment);
             case "ticket" -> ticketBarDataFetcher.get(dataFetchingEnvironment);
-            default -> null;
+            default -> throw new IllegalStateException("Unexpected value: " + lowerGroup);
         };
 	}
 

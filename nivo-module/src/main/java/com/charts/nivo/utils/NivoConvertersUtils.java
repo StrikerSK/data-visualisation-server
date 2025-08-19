@@ -26,11 +26,11 @@ public class NivoConvertersUtils {
      * @return List of processed data into Nivo Pie data structure
      * @param <T> Application defined enumeration implementing {@link IEnum}
      */
-    public static <T extends IEnum> List<NivoPieData> createPieData(List<GroupingEntity<T>> groupingList) {
-        groupingList.sort(Comparator.comparingInt(e -> e.getKey().getOrderValue()));
+    public static <T extends IEnum> List<NivoPieData> createPieData(List<? extends GroupingEntity<?>> groupingList) {
         return groupingList
                 .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getKey().getOrderValue(), e.getValue().intValue()))
+                .sorted(Comparator.comparingInt(e -> ((IEnum) e.getKey()).getOrderValue()))
+                .map(e -> new NivoPieData(((IEnum) e.getKey()).getValue(), ((IEnum) e.getKey()).getOrderValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
     }
 

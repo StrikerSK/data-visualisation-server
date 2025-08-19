@@ -23,13 +23,17 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
 	@Override
 	public List<NivoLineData> get(DataFetchingEnvironment dataFetchingEnvironment) {
 		String kind = dataFetchingEnvironment.getArgument("kind");
-		String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+        String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
+        String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
+
+        if (kind == null) {
+            throw new IllegalStateException("Kind is null");
+        }
 
 		return switch (kind) {
 			case "coupon" -> couponsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
 			case "ticket" -> ticketsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
-			default -> null;
+			default -> throw new IllegalStateException("Unexpected value: " + kind);
 		};
 	}
 

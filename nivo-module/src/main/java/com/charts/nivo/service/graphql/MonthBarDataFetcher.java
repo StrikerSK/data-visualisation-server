@@ -25,12 +25,17 @@ public class MonthBarDataFetcher implements DataFetcher<List<Map<String, Object>
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
         String kind = dataFetchingEnvironment.getArgument("kind");
+        String lowerGroup = "Moth";
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
 
+        if (kind == null) {
+            throw new IllegalStateException("Kind is null");
+        }
+
         List<Map<String, Object>> output = switch(kind) {
-            case "coupon" -> couponsService.createDynamicBarData(upperGroup, "Month", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
-            case "ticket" ->  ticketsService.createDynamicBarData(upperGroup, "Month", GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
-            default -> List.of();
+            case "coupon" -> couponsService.createDynamicBarData(upperGroup, lowerGroup, GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
+            case "ticket" ->  ticketsService.createDynamicBarData(upperGroup, lowerGroup, GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
+            default -> throw new IllegalStateException("Unexpected value: " + kind);
         };
         return GraphFetcherUtil.fetchValue(output, Months.class);
     }

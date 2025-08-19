@@ -4,10 +4,7 @@ import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.graphql.*;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
+import graphql.schema.idl.*;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,8 +53,8 @@ public class NivoGraphQLService {
 
 	@PostConstruct
 	public void loadSchema() throws IOException {
-		try (InputStream inputStream = resource.getInputStream()) {
-			TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(inputStream));
+		try (InputStream loadedSchema = resource.getInputStream()) {
+			TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(loadedSchema));
 			RuntimeWiring wiring = buildRuntimeWiring();
 			GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
 			graphQL = GraphQL.newGraphQL(schema).build();
@@ -66,28 +63,35 @@ public class NivoGraphQLService {
 
 	private RuntimeWiring buildRuntimeWiring() {
 		return RuntimeWiring.newRuntimeWiring()
-				.type("Query", builder -> builder
-						.dataFetcher("nivoBarData", nivoBarDataFetcher)
-						.dataFetcher("nivoLineData", nivoLineDataFetcher)
-						.dataFetcher("nivoPieData", nivoPieDataFetcher)
-						.dataFetcher("MonthBarData", monthBarDataFetcher)
-						.dataFetcher("PersonBarData", personBarDataFetcher)
-						.dataFetcher("ValidityBarData", validityBarDataFetcher)
-						.dataFetcher("SellTypeBarData", sellTypeBarDataFetcher)
-						.dataFetcher("TicketBarData", ticketBarDataFetcher)
-				)
-				.type("NivoBarData", builder -> builder.typeResolver(env -> {
-					String lowerGroup = env.getArguments().get("lowerGroup").toString().toLowerCase();
-                    return switch (lowerGroup) {
-                        case "person" -> env.getSchema().getObjectType("PersonBarData");
-                        case "month" -> env.getSchema().getObjectType("MonthBarData");
-                        case "validity" -> env.getSchema().getObjectType("ValidityBarData");
-                        case "type" -> env.getSchema().getObjectType("SellTypeBarData");
-						case "ticket"  -> env.getSchema().getObjectType("TicketBarData");
-                        default -> null;
-                    };
-				}))
+				.type("Query", this::enhanceQueryBuilder)
+				.type("NivoBarData", this::enhanceBarDataBuilder)
 				.build();
 	}
+
+    private TypeRuntimeWiring.Builder enhanceQueryBuilder(TypeRuntimeWiring.Builder builder) {
+        return builder
+                .dataFetcher("nivoBarData", nivoBarDataFetcher)
+                .dataFetcher("nivoLineData", nivoLineDataFetcher)
+                .dataFetcher("nivoPieData", nivoPieDataFetcher)
+                .dataFetcher("MonthBarData", monthBarDataFetcher)
+                .dataFetcher("PersonBarData", personBarDataFetcher)
+                .dataFetcher("ValidityBarData", validityBarDataFetcher)
+                .dataFetcher("SellTypeBarData", sellTypeBarDataFetcher)
+                .dataFetcher("TicketBarData", ticketBarDataFetcher);
+    }
+
+    private TypeRuntimeWiring.Builder enhanceBarDataBuilder(TypeRuntimeWiring.Builder builder) {
+        return builder.typeResolver(env -> {
+            String lowerGroup = env.getArguments().get("lowerGroup").toString().toLowerCase();
+            return switch (lowerGroup) {
+                case "person" -> env.getSchema().getObjectType("PersonBarData");
+                case "month" -> env.getSchema().getObjectType("MonthBarData");
+                case "validity" -> env.getSchema().getObjectType("ValidityBarData");
+                case "type" -> env.getSchema().getObjectType("SellTypeBarData");
+                case "ticket"  -> env.getSchema().getObjectType("TicketBarData");
+                default -> null;
+            };
+        });
+    }
 
 }

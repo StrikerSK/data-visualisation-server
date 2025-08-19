@@ -1,5 +1,6 @@
 package com.charts.nivo.service.graphql;
 
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.api.coupon.entity.enums.types.PersonType;
 import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.utils.GraphFetcherUtil;
@@ -22,8 +23,11 @@ public class PersonBarDataFetcher implements DataFetcher<List<Map<String, Object
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
+        String lowerGroup = "Person";
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, "Person", GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
+        CouponsParameters parameters = GraphParameters.fetchCouponParameters(dataFetchingEnvironment);
+
+        List<Map<String, Object>> output = couponsService.createDynamicBarData(upperGroup, lowerGroup, parameters);
         return GraphFetcherUtil.fetchValue(output, PersonType.class);
     }
 

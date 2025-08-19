@@ -1,5 +1,6 @@
 package com.charts.nivo.service.graphql;
 
+import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.NivoTicketsService;
@@ -22,8 +23,11 @@ public class TicketBarDataFetcher implements DataFetcher<List<Map<String, Object
 
     @Override
     public List<Map<String, Object>> get(DataFetchingEnvironment dataFetchingEnvironment) {
+        String lowerGroup = "Ticket";
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
-        List<Map<String, Object>> output = ticketsService.createDynamicBarData(upperGroup, "Ticket", GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
+        TicketsParameters parameters = GraphParameters.fetchTicketParameters(dataFetchingEnvironment);
+
+        List<Map<String, Object>> output = ticketsService.createDynamicBarData(upperGroup, lowerGroup, parameters);
         return GraphFetcherUtil.fetchValue(output, TicketType.class);
     }
 

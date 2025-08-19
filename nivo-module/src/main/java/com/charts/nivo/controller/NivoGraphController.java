@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class NivoGraphController {
         ExecutionResult result = nivoGraphQLService.getGraphQL()
                 .execute(builder -> builder
                         .query(request.getQuery())
+                        .operationName(request.getOperationName())
                         .variables(request.getVariables() != null ? request.getVariables() : Map.of())
                 );
 
@@ -42,7 +44,10 @@ public class NivoGraphController {
 
     @GetMapping(path = "/schema", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getSchema() throws IOException {
-        String sdl = new String(schemaResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        String sdl;
+        try (InputStream inputStream = schemaResource.getInputStream()) {
+            sdl = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
         return ResponseEntity.ok(sdl);
     }
 
