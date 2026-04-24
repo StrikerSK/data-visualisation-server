@@ -19,15 +19,15 @@ public class ApexCouponService extends ApexAbstractService {
 
 	private final CouponV2Service couponService;
 
-	public <T extends IEnum> List<ApexObject> getCouponData(
+	public List<ApexObject> getCouponData(
 			String upperGroup,
 			String lowerGroup,
 			CouponsParameters parameters
 	) {
 		CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
 
-		Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperFunction = CouponFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> upperFunction = CouponFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> lowerFunction = CouponFunctionUtils.createGrouping(lowerGroup);
 
 		List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
 		return processValues(couponList, upperFunction, lowerFunction);

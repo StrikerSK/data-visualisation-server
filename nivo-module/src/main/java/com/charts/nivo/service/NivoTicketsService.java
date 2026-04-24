@@ -53,10 +53,10 @@ public class NivoTicketsService {
 		return convertedData;
 	}
 
-	public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+	public List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
 		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
 		return NivoConvertersUtils.createLineData(
 				ticketService.getAllByFilter(parameters),
 				upperGroupingFunction,
@@ -65,10 +65,10 @@ public class NivoTicketsService {
 		);
 	}
 
-	public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+	public NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
 		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
 		return NivoConvertersUtils.createBubbleData(
 				ticketService.getAllByFilter(parameters),
 				upperGroupingFunction,
@@ -77,10 +77,10 @@ public class NivoTicketsService {
 		);
 	}
 
-	public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+	public List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
 		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
 		return NivoConvertersUtils.createBarData(
 				ticketService.getAllByFilter(parameters),
 				upperGroupingFunction,

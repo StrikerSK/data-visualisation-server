@@ -41,10 +41,10 @@ public class NivoConvertersUtils {
      * @param upperGrouping top level grouping of data
      * @param nestedGrouping nested grouping within upper grouping
      */
-    public static <T extends IEnum, R extends IEnum, E extends AbstractUpdateEntity> List<Map<String, Object>> createBarData(
+    public static <E extends AbstractUpdateEntity> List<Map<String, Object>> createBarData(
             List<E> input,
-            Function<List<E>, Map<T, List<E>>> upperGrouping,
-            Function<List<E>, Map<R, List<E>>> nestedGrouping
+            Function<List<E>, Map<IEnum, List<E>>> upperGrouping,
+            Function<List<E>, Map<IEnum, List<E>>> nestedGrouping
     ) {
         return upperGrouping.apply(input).entrySet()
                 .stream()
@@ -73,10 +73,10 @@ public class NivoConvertersUtils {
      * @param nestedGrouping grouping of listed data in 'data' parameter
      * @param aggregator aggregation function
      */
-    public static <T extends IEnum, R extends IEnum, E extends AbstractUpdateEntity> List<NivoLineData> createLineData(
+    public static <E extends AbstractUpdateEntity> List<NivoLineData> createLineData(
             List<E> input,
-            Function<List<E>, Map<T, List<E>>> upperGrouping,
-            Function<List<E>, Map<R, List<E>>> nestedGrouping,
+            Function<List<E>, Map<IEnum, List<E>>> upperGrouping,
+            Function<List<E>, Map<IEnum, List<E>>> nestedGrouping,
             Function<List<E>, Integer> aggregator
     ) {
         return upperGrouping.apply(input).entrySet()
@@ -85,9 +85,9 @@ public class NivoConvertersUtils {
                 .collect(Collectors.toList());
     }
 
-    private static  <T extends IEnum, R extends IEnum, E extends AbstractUpdateEntity> NivoLineData calculateLineData(
-            Map.Entry<T, List<E>> mapEntry,
-            Function<List<E>, Map<R, List<E>>> nestedGrouping,
+    private static <E extends AbstractUpdateEntity> NivoLineData calculateLineData(
+            Map.Entry<IEnum, List<E>> mapEntry,
+            Function<List<E>, Map<IEnum, List<E>>> nestedGrouping,
             Function<List<E>, Integer> aggregator
     ) {
         List<NivoDataXY> summarizedGroups = nestedGrouping.apply(mapEntry.getValue()).entrySet()
@@ -105,10 +105,10 @@ public class NivoConvertersUtils {
      * @param lowerGrouping nested grouping of withing upper grouping
      * @param aggregator aggregation function
      */
-    public static <T extends IEnum, R extends IEnum, E extends AbstractUpdateEntity> NivoBubbleData createBubbleData(
+    public static <E extends AbstractUpdateEntity> NivoBubbleData createBubbleData(
             List<E> input,
-            Function<List<E>, Map<T, List<E>>> upperGrouping,
-            Function<List<E>, Map<R, List<E>>> lowerGrouping,
+            Function<List<E>, Map<IEnum, List<E>>> upperGrouping,
+            Function<List<E>, Map<IEnum, List<E>>> lowerGrouping,
             Function<List<E>, Integer> aggregator
     ) {
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();

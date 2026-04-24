@@ -57,10 +57,10 @@ public class NivoCouponService {
         return convertedData;
     }
 
-    public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+    public List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
        CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
         return NivoConvertersUtils.createLineData(
                 couponService.findCouponEntities(parameters),
                 upperGroupingFunction,
@@ -69,10 +69,10 @@ public class NivoCouponService {
         );
     }
 
-    public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+    public List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
         CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
         return NivoConvertersUtils.createBarData(
                 couponService.findCouponEntities(parameters),
                 upperGroupingFunction,
@@ -80,10 +80,10 @@ public class NivoCouponService {
         );
     }
 
-    public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+    public NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
         CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
         return NivoConvertersUtils.createBubbleData(
                 couponService.findCouponEntities(parameters),
                 upperGroupingFunction,

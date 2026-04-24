@@ -1,9 +1,11 @@
 package com.charts.api.ticket.utils;
 
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.exception.InvalidParameterException;
 import com.charts.general.utils.AbstractFunctionUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -13,22 +15,21 @@ public class TicketFunctionUtils extends AbstractFunctionUtils {
     public static final String DISCOUNTED_GROUP = "discounted";
     public static final String TICKET_GROUP = "ticket";
 
-    @SuppressWarnings("unchecked")
-    public static <T> Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> createGrouping(String groupName) {
-        Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> convertedData;
+    public static Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> createGrouping(String groupName) {
+        Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> convertedData;
 
         switch (groupName.toLowerCase()) {
             case TICKET_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByTicketType(e);
+                convertedData = groupBy(TicketGroupingUtils::groupByTicketType);
                 break;
             case MONTH_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByMonth(e);
+                convertedData = groupBy(TicketGroupingUtils::groupByMonth);
                 break;
             case DISCOUNTED_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByDiscounted(e);
+                convertedData = groupBy(TicketGroupingUtils::groupByDiscounted);
                 break;
             case YEAR_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByYear(e);
+                convertedData = groupBy(TicketGroupingUtils::groupByYear);
                 break;
             default:
                 throw new InvalidParameterException(
@@ -37,6 +38,12 @@ public class TicketFunctionUtils extends AbstractFunctionUtils {
         }
 
         return convertedData;
+    }
+
+    private static <T extends IEnum> Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> groupBy(
+            Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> groupingFunction
+    ) {
+        return entries -> new LinkedHashMap<>(groupingFunction.apply(entries));
     }
 
 }

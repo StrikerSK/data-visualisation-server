@@ -19,15 +19,15 @@ public class ApexTicketService extends ApexAbstractService {
 
 	private final TicketService ticketService;
 
-	public <T extends IEnum> List<ApexObject> getTicketData(
+	public List<ApexObject> getTicketData(
 			String upperGroup,
 			String lowerGroup,
 			TicketsParameters parameters
 	) {
 		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
 
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperFunction = TicketFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> upperFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> lowerFunction = TicketFunctionUtils.createGrouping(lowerGroup);
 
 		List<UpdateTicketEntity> couponList = ticketService.getAllByFilter(parameters);
 		return processValues(couponList, upperFunction, lowerFunction);

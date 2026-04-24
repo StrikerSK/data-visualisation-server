@@ -27,29 +27,29 @@ public class RechartsService {
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
 
-	public <T extends IEnum> List<List<RechartsDataObject>> getCouponData(
+	public List<List<RechartsDataObject>> getCouponData(
 			String upperGroup,
 			String lowerGroup,
 			CouponsParameters parameters
 	) {
 		CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
 
-		Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperFunction = CouponFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> upperFunction = CouponFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> lowerFunction = CouponFunctionUtils.createGrouping(lowerGroup);
 
 		List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
 		return processValues(couponList, upperFunction, lowerFunction);
 	}
 
-	public <T extends IEnum> List<List<RechartsDataObject>> getTicketData(
+	public List<List<RechartsDataObject>> getTicketData(
 			String upperGroup,
 			String lowerGroup,
 			TicketsParameters parameters
 	) {
 		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
 
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperFunction = TicketFunctionUtils.createGrouping(upperGroup);
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> upperFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> lowerFunction = TicketFunctionUtils.createGrouping(lowerGroup);
 
 		List<UpdateTicketEntity> couponList = ticketService.getAllByFilter(parameters);
 		return processValues(couponList, upperFunction, lowerFunction);
@@ -62,13 +62,12 @@ public class RechartsService {
 	 * @param upperFunction Name of the group that will be on upper level
 	 * @param lowerFunction Name of the group that will be on lower level
 	 * @return List of data that are grouped by specified group levels
-	 * @param <T> Type implementing {@link IEnum}, because of ordering value
 	 * @param <R> Type that should be utilizing {@link AbstractUpdateEntity} because of value
 	 */
-	private static <T extends IEnum, R extends AbstractUpdateEntity> List<List<RechartsDataObject>> processValues(
+	private static <R extends AbstractUpdateEntity> List<List<RechartsDataObject>> processValues(
 			List<R> entries,
-			Function<List<R>, Map<T, List<R>>> upperFunction,
-			Function<List<R>, Map<T, List<R>>> lowerFunction
+			Function<List<R>, Map<IEnum, List<R>>> upperFunction,
+			Function<List<R>, Map<IEnum, List<R>>> lowerFunction
 	) {
 		return upperFunction.apply(entries)
 				.entrySet()

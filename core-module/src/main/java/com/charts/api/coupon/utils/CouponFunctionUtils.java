@@ -5,6 +5,7 @@ import com.charts.general.entity.enums.IEnum;
 import com.charts.general.exception.InvalidParameterException;
 import com.charts.general.utils.AbstractFunctionUtils;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,25 +16,24 @@ public class CouponFunctionUtils extends AbstractFunctionUtils {
     public static final String SELL_GROUP = "sell";
     public static final String VALIDITY_GROUP = "validity";
 
-    @SuppressWarnings("unchecked")
-    public static <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> convertedData;
+    public static Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> createGrouping(String groupName) {
+        Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> convertedData;
 
         switch (groupName.toLowerCase()) {
             case PERSON_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByPersonType(e);
+                convertedData = groupBy(CouponGroupingUtils::groupByPersonType);
                 break;
             case MONTH_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByMonth(e);
+                convertedData = groupBy(CouponGroupingUtils::groupByMonth);
                 break;
             case SELL_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupBySellType(e);
+                convertedData = groupBy(CouponGroupingUtils::groupBySellType);
                 break;
             case VALIDITY_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByValidity(e);
+                convertedData = groupBy(CouponGroupingUtils::groupByValidity);
                 break;
             case YEAR_GROUP:
-                convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByYear(e);
+                convertedData = groupBy(CouponGroupingUtils::groupByYear);
                 break;
             default:
                 throw new InvalidParameterException(
@@ -42,6 +42,12 @@ public class CouponFunctionUtils extends AbstractFunctionUtils {
         }
 
         return convertedData;
+    }
+
+    private static <T extends IEnum> Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> groupBy(
+            Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> groupingFunction
+    ) {
+        return entries -> new LinkedHashMap<>(groupingFunction.apply(entries));
     }
 
 }

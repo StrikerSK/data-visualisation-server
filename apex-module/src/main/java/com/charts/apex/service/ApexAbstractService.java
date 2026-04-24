@@ -18,13 +18,12 @@ abstract class ApexAbstractService {
      * @param upperFunction Name of the group that will be on upper level
      * @param lowerFunction Name of the group that will be on lower level
      * @return List of data that are grouped by specified group levels
-     * @param <T> Type implementing {@link IEnum}, because of ordering value property
      * @param <R> Type that should be utilizing {@link AbstractUpdateEntity} because of value property
      */
-    protected static <T extends IEnum, R extends AbstractUpdateEntity> List<ApexObject> processValues(
+    protected static <R extends AbstractUpdateEntity> List<ApexObject> processValues(
             List<R> entries,
-            Function<List<R>, Map<T, List<R>>> upperFunction,
-            Function<List<R>, Map<T, List<R>>> lowerFunction
+            Function<List<R>, Map<IEnum, List<R>>> upperFunction,
+            Function<List<R>, Map<IEnum, List<R>>> lowerFunction
     ) {
         return upperFunction.apply(entries)
                 .entrySet()
