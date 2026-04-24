@@ -3,6 +3,7 @@ package com.charts.files.controller;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.conditions.FileExportCondition;
+import com.charts.files.exception.FileProcessingException;
 import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,7 +56,7 @@ public class FileExportController {
 			response.setStatus(HttpServletResponse.SC_OK);
 			CsvProcessor.writeEntries(response.getWriter(), entries);
 		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			throw new FileProcessingException("Failed to write CSV response", e);
 		}
 	}
 

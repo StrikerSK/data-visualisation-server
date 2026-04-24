@@ -9,13 +9,12 @@ import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
+import com.charts.general.utils.GroupingEntityUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class CouponV2Service {
     private final JpaCouponV2Repository couponRepository;
 
     public List<UpdateCouponEntity> findAll(Integer size) {
-        Pageable pageable = PageRequest.ofSize(size);
+        Pageable pageable = Pageable.ofSize(size);
         return couponRepository.findAll(pageable).getContent();
     }
 
@@ -81,16 +80,13 @@ public class CouponV2Service {
     }
 
     public List<GroupingEntity<EnumAdapter>> findByValidityAndGroupedByYear(CouponsParameters couponsParameters) {
-        return couponRepository.findGroupedByYearValues(
+        return GroupingEntityUtils.fromIntegers(couponRepository.findGroupedByYearValues(
                 couponsParameters.getPersonTypeList(),
                 couponsParameters.getValidity(),
                 couponsParameters.getSellTypes(),
                 couponsParameters.getMonths(),
                 couponsParameters.getYearInteger()
-        )
-                .stream()
-                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey()), e.getValue()))
-                .collect(Collectors.toList());
+        ));
     }
 
 }

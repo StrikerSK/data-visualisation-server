@@ -6,4 +6,8 @@ public class InvalidParameterException extends RuntimeException {
         super(message);
     }
 
+    public InvalidParameterException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

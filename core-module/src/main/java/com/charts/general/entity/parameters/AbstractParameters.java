@@ -3,6 +3,7 @@ package com.charts.general.entity.parameters;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
+import com.charts.general.exception.InvalidParameterException;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
@@ -37,8 +38,12 @@ public abstract class AbstractParameters {
     protected  <T extends IEnum> List<T> getValueList(List<String> searchedValues, Class<T> clazz) {
         if (CollectionUtils.isEmpty(searchedValues)) {
             return EnumUtils.getValueList(clazz);
-        } else {
+        }
+
+        try {
             return EnumUtils.getValueList(searchedValues, clazz);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidParameterException(ex.getMessage(), ex);
         }
     }
 }

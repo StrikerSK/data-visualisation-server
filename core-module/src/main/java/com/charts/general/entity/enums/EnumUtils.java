@@ -15,9 +15,20 @@ public class EnumUtils {
     }
 
     public static <T extends IEnum> List<T> getValueList(List<String> searchedValues, Class<T> clazz) {
-        return getValueList(clazz).stream()
+        List<T> resolvedValues = getValueList(clazz).stream()
                 .filter(v -> searchedValues.contains(v.getValue()))
                 .collect(Collectors.toList());
+
+        if (resolvedValues.size() != searchedValues.size()) {
+            List<String> unknownValues = searchedValues.stream()
+                    .filter(value -> resolvedValues.stream().noneMatch(entry -> entry.getValue().equals(value)))
+                    .collect(Collectors.toList());
+            throw new IllegalArgumentException(
+                    String.format("Unknown values %s for %s. Allowed values: %s", unknownValues, clazz.getSimpleName(), getStringValues(clazz))
+            );
+        }
+
+        return resolvedValues;
     }
 
     public static <T extends IEnum> Optional<T> getValue(Class<T> clazz, String label) {

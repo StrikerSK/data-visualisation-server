@@ -7,11 +7,11 @@ import com.charts.api.ticket.repository.JpaTicketV2Repository;
 import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
+import com.charts.general.utils.GroupingEntityUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -57,27 +57,21 @@ public class TicketService {
     }
 
     public List<GroupingEntity<EnumAdapter>> getTicketsByYear(TicketsParameters parameters) {
-        return ticketRepository.findGroupedByYear(
+        return GroupingEntityUtils.fromIntegers(ticketRepository.findGroupedByYear(
                 parameters.getMonths(),
                 parameters.getDiscounted(),
                 parameters.getTicketType(),
                 parameters.getYearInteger()
-        )
-                .stream()
-                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey()), e.getValue()))
-                .collect(Collectors.toList());
+        ));
     }
 
     public List<GroupingEntity<EnumAdapter>> getTicketsByDiscounted(TicketsParameters parameters) {
-        return ticketRepository.findGroupedByDiscounted(
+        return GroupingEntityUtils.fromBooleans(ticketRepository.findGroupedByDiscounted(
                 parameters.getMonths(),
                 parameters.getDiscounted(),
                 parameters.getTicketType(),
                 parameters.getYearInteger()
-        )
-                .stream()
-                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey().toString(), 0), e.getValue()))
-                .collect(Collectors.toList());
+        ));
     }
 
 }

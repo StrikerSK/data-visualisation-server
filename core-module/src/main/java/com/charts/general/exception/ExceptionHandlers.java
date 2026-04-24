@@ -14,6 +14,8 @@ import java.util.Map;
 @Order(1)
 @ControllerAdvice
 public class ExceptionHandlers {
+    public static final String MESSAGE_KEY = "message";
+    public static final String ERROR_KEY = "error";
 
     @ExceptionHandler(value = InvalidParameterException.class)
     public ResponseEntity<Map<String, String>> handleException(InvalidParameterException ex) {
@@ -23,8 +25,8 @@ public class ExceptionHandlers {
     public static ResponseEntity<Map<String, String>> createResponse(Integer statusCode, String message, Exception ex) {
         log.debug(ex.getMessage(), ex);
         Map<String, String> response = new HashMap<>();
-        response.put("message", message);
-        response.put("error", ex.getMessage());
+        response.put(MESSAGE_KEY, message);
+        response.put(ERROR_KEY, ex.getMessage());
         return ResponseEntity.status(statusCode).body(response);
     }
 

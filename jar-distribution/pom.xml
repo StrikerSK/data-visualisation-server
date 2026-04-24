@@ -36,17 +36,17 @@
         <dependency>
             <groupId>com.charts</groupId>
             <artifactId>apex-module</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.charts</groupId>
             <artifactId>nivo-module</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.charts</groupId>
             <artifactId>recharts-module</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

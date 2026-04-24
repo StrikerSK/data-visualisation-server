@@ -8,6 +8,7 @@ import com.charts.files.generator.IDataGenerator;
 import com.charts.files.utils.CsvProcessor;
 import com.charts.files.exception.CsvContentException;
 import com.charts.files.conditions.FileCondition;
+import com.charts.files.exception.FileProcessingException;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,11 +60,16 @@ public class FileService {
 			Consumer<List<T>> persistence
 	) {
 		try {
-			List<T> coupons = CsvProcessor.readEntries(payload.getInputStream(), clazz);
-			persistence.accept(coupons);
+			persistence.accept(readEntries(payload, clazz));
+		} catch (CsvContentException e) {
+			throw e;
 		} catch (Exception e) {
-			throw new CsvContentException(e.getMessage(), e);
+			throw new FileProcessingException("Failed to process uploaded CSV file", e);
 		}
+	}
+
+	private static <T> List<T> readEntries(MultipartFile payload, Class<T> clazz) throws Exception {
+		return CsvProcessor.readEntries(payload.getInputStream(), clazz);
 	}
 
 }

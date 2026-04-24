@@ -13,10 +13,11 @@ import java.util.Map;
 @Order
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final String INTERNAL_ERROR_MESSAGE = "Internal Server Error";
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
-        return ExceptionHandlers.createResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", ex);
+        return ExceptionHandlers.createResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), INTERNAL_ERROR_MESSAGE, ex);
     }
 
 }

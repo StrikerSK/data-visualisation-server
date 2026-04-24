@@ -6,6 +6,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.apache.commons.io.IOUtils;
@@ -34,8 +35,10 @@ public class CsvProcessor {
             builder.build().write(data);
         } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             throw new CsvContentException(e.getMessage(), e);
-        }catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CsvContentException("Failed to write CSV content", e);
         }
     }
 
@@ -49,24 +52,33 @@ public class CsvProcessor {
      * @throws IOException Exception coming from file reading
      */
     public static <T> List<T> readEntries(InputStream is, Class<T> clazz) throws IOException {
-        try {
-            InputStreamReader inputStream = new InputStreamReader(is, StandardCharsets.UTF_8);
-            BufferedReader fileReader = new BufferedReader(inputStream);
-            String stringReader = IOUtils.toString(fileReader);
-            CSVReader csvReader = new CSVReader(new StringReader(stringReader));
+        try (InputStreamReader inputStream = new InputStreamReader(is, StandardCharsets.UTF_8);
+             BufferedReader fileReader = new BufferedReader(inputStream);
+             CSVReader csvReader = new CSVReader(new StringReader(IOUtils.toString(fileReader)))) {
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader)
                     .withType(clazz)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
             return csvToBean.parse();
         } catch (Exception e) {
-            if (e.getCause() instanceof CsvRequiredFieldEmptyException) {
-                Throwable cause = e.getCause();
-                throw new CsvContentException(cause.getMessage(), cause);
+            CsvException csvException = findCsvException(e);
+            if (csvException != null) {
+                throw new CsvContentException(csvException.getMessage(), csvException);
             }
 
             throw e;
         }
+    }
+
+    private static CsvException findCsvException(Throwable throwable) {
+        Throwable current = throwable;
+        while (current != null) {
+            if (current instanceof CsvRequiredFieldEmptyException || current instanceof CsvDataTypeMismatchException) {
+                return (CsvException) current;
+            }
+            current = current.getCause();
+        }
+        return null;
     }
 
 }

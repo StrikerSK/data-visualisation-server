@@ -16,7 +16,7 @@
         <dependency>
             <groupId>com.charts</groupId>
             <artifactId>core-module</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
