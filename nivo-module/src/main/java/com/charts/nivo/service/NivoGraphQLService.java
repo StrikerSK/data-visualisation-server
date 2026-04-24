@@ -3,6 +3,7 @@ package com.charts.nivo.service;
 import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.graphql.*;
 import graphql.GraphQL;
+import graphql.TypeResolutionEnvironment;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
 import jakarta.annotation.PostConstruct;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Getter
@@ -61,37 +64,61 @@ public class NivoGraphQLService {
 		}
 	}
 
-	private RuntimeWiring buildRuntimeWiring() {
-		return RuntimeWiring.newRuntimeWiring()
-				.type("Query", this::enhanceQueryBuilder)
-				.type("NivoBarData", this::enhanceBarDataBuilder)
-				.build();
+    private RuntimeWiring buildRuntimeWiring() {
+        return RuntimeWiring.newRuntimeWiring()
+                .type("Query", this::enhanceQueryBuilder)
+                .type("NivoBarData", this::enhanceBarDataBuilder)
+                .build();
 	}
 
     private TypeRuntimeWiring.Builder enhanceQueryBuilder(TypeRuntimeWiring.Builder builder) {
         return builder
                 .dataFetcher("nivoBarData", nivoBarDataFetcher)
                 .dataFetcher("nivoLineData", nivoLineDataFetcher)
-                .dataFetcher("nivoPieData", nivoPieDataFetcher)
-                .dataFetcher("MonthBarData", monthBarDataFetcher)
-                .dataFetcher("PersonBarData", personBarDataFetcher)
-                .dataFetcher("ValidityBarData", validityBarDataFetcher)
-                .dataFetcher("SellTypeBarData", sellTypeBarDataFetcher)
-                .dataFetcher("TicketBarData", ticketBarDataFetcher);
+                .dataFetcher("nivoPieData", nivoPieDataFetcher);
     }
 
     private TypeRuntimeWiring.Builder enhanceBarDataBuilder(TypeRuntimeWiring.Builder builder) {
-        return builder.typeResolver(env -> {
-            String lowerGroup = env.getArguments().get("lowerGroup").toString().toLowerCase();
-            return switch (lowerGroup) {
-                case "person" -> env.getSchema().getObjectType("PersonBarData");
-                case "month" -> env.getSchema().getObjectType("MonthBarData");
-                case "validity" -> env.getSchema().getObjectType("ValidityBarData");
-                case "type" -> env.getSchema().getObjectType("SellTypeBarData");
-                case "ticket"  -> env.getSchema().getObjectType("TicketBarData");
-                default -> null;
-            };
-        });
+        return builder.typeResolver(this::resolveBarDataType);
+    }
+
+    private graphql.schema.GraphQLObjectType resolveBarDataType(TypeResolutionEnvironment env) {
+        Object value = env.getObject();
+        if (!(value instanceof Map<?, ?> mapValue)) {
+            return null;
+        }
+
+        Set<String> fieldNames = mapValue.keySet().stream()
+                .filter(String.class::isInstance)
+                .map(String.class::cast)
+                .collect(java.util.stream.Collectors.toSet());
+
+        if (containsAny(fieldNames, "adults", "portable", "portables", "children", "students")) {
+            return env.getSchema().getObjectType("PersonBarData");
+        }
+        if (containsAny(fieldNames, "january", "february", "december")) {
+            return env.getSchema().getObjectType("MonthBarData");
+        }
+        if (containsAny(fieldNames, "one_month", "three_months", "one_year")) {
+            return env.getSchema().getObjectType("ValidityBarData");
+        }
+        if (containsAny(fieldNames, "chip_card", "paper_coupon", "e_shop")) {
+            return env.getSchema().getObjectType("SellTypeBarData");
+        }
+        if (containsAny(fieldNames, "fifteen_minutes", "one_day", "eleven_zones")) {
+            return env.getSchema().getObjectType("TicketBarData");
+        }
+
+        return null;
+    }
+
+    private boolean containsAny(Set<String> fieldNames, String... candidates) {
+        for (String candidate : candidates) {
+            if (fieldNames.contains(candidate)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

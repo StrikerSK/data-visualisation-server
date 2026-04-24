@@ -36,7 +36,7 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
 		String lowerGroup = dataFetchingEnvironment.getArgument("lowerGroup");
 
         if (lowerGroup == null) {
-            throw new IllegalStateException("Lower group is null");
+            throw GraphQlErrors.invalidArgument("Missing required argument: lowerGroup");
         }
 
         return switch (lowerGroup) {
@@ -45,7 +45,7 @@ public class NivoBarDataFetcher implements DataFetcher<List<Map<String, Object>>
             case "validity" -> validityBarDataFetcher.get(dataFetchingEnvironment);
             case "type" -> sellTypeBarDataFetcher.get(dataFetchingEnvironment);
             case "ticket" -> ticketBarDataFetcher.get(dataFetchingEnvironment);
-            default -> throw new IllegalStateException("Unexpected value: " + lowerGroup);
+            default -> throw GraphQlErrors.invalidArgument("Unsupported lowerGroup: " + lowerGroup);
         };
 	}
 

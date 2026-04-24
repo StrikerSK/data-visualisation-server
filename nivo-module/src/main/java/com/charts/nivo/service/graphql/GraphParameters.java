@@ -7,22 +7,33 @@ import graphql.schema.DataFetchingEnvironment;
 class GraphParameters {
 
     static CouponsParameters fetchCouponParameters(DataFetchingEnvironment env) {
-        return CouponsParameters.builder()
-                .month(env.getArgument("month"))
-                .validity(env.getArgument("validity"))
-                .sellType(env.getArgument("type"))
-                .year(env.getArgument("year"))
-                .person(env.getArgument("person"))
-                .build();
+        return new CouponsParameters(
+                env.getArgument("validity"),
+                env.getArgument("type"),
+                env.getArgument("month"),
+                parseYears(env.getArgument("year")),
+                env.getArgument("person")
+        );
     }
 
     static TicketsParameters fetchTicketParameters(DataFetchingEnvironment env) {
-        return TicketsParameters.builder()
-                .month(env.getArgument("month"))
-                .year(env.getArgument("year"))
-                .discounted(env.getArgument("discounted"))
-                .ticketType(env.getArgument("ticketType"))
-                .build();
+        Boolean discounted = env.getArgument("discounted");
+        return new TicketsParameters(
+                env.getArgument("month"),
+                parseYears(env.getArgument("year")),
+                discounted == null ? null : java.util.List.of(discounted),
+                env.getArgument("ticketType")
+        );
+    }
+
+    private static java.util.List<Integer> parseYears(java.util.List<String> years) {
+        if (years == null) {
+            return null;
+        }
+
+        return years.stream()
+                .map(Integer::valueOf)
+                .toList();
     }
 
 }

@@ -27,13 +27,17 @@ public class NivoPieDataFetcher implements DataFetcher<List<NivoPieData>> {
 		Optional<String> grouping = Optional.ofNullable(dataFetchingEnvironment.getArgument("grouping"));
 
         if (kind.isEmpty()) {
-            throw new IllegalStateException("Kind is null");
+            throw GraphQlErrors.invalidArgument("Missing required argument: kind");
+        }
+
+        if (grouping.isEmpty()) {
+            throw GraphQlErrors.invalidArgument("Missing required argument: grouping");
         }
 
 		return switch (kind.orElse("")) {
 			case "coupon" -> couponsService.createDynamicPieData(grouping.orElse("Person"), GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
 			case "ticket" -> ticketsService.createDynamicPieData(grouping.orElse("Ticket"), GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
-			default -> null;
+			default -> throw GraphQlErrors.invalidArgument("Unsupported kind: " + kind.orElse(""));
 		};
 	}
 

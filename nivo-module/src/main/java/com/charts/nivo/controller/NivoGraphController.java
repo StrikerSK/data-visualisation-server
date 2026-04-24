@@ -4,6 +4,7 @@ import com.charts.nivo.configuration.GraphCondition;
 import com.charts.nivo.service.NivoGraphQLService;
 import graphql.ExecutionResult;
 import graphql.kickstart.execution.GraphQLRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.Resource;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Conditional(GraphCondition.class)
 public class NivoGraphController {
 
-    @Value("classpath:graphql/schema.graphqls")
+    @Value("classpath:schema.graphqls")
     private Resource schemaResource;
 
     private final NivoGraphQLService nivoGraphQLService;
@@ -32,6 +33,11 @@ public class NivoGraphController {
 
     @PostMapping(path = "/graphql", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> executeGraphQL(@RequestBody GraphQLRequest request) {
+        if (request == null || request.getQuery() == null || request.getQuery().isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("errors", java.util.List.of(Map.of("message", "GraphQL query must not be blank"))));
+        }
+
         ExecutionResult result = nivoGraphQLService.getGraphQL()
                 .execute(builder -> builder
                         .query(request.getQuery())

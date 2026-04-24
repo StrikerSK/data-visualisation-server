@@ -27,13 +27,13 @@ public class NivoLineDataFetcher implements DataFetcher<List<NivoLineData>> {
         String upperGroup = dataFetchingEnvironment.getArgument("upperGroup");
 
         if (kind == null) {
-            throw new IllegalStateException("Kind is null");
+            throw GraphQlErrors.invalidArgument("Missing required argument: kind");
         }
 
 		return switch (kind) {
 			case "coupon" -> couponsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchCouponParameters(dataFetchingEnvironment));
 			case "ticket" -> ticketsService.createDynamicLineData(upperGroup, lowerGroup, GraphParameters.fetchTicketParameters(dataFetchingEnvironment));
-			default -> throw new IllegalStateException("Unexpected value: " + kind);
+			default -> throw GraphQlErrors.invalidArgument("Unsupported kind: " + kind);
 		};
 	}
 
