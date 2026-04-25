@@ -8,21 +8,24 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class AbstractFilterUtils {
+public final class AbstractFilterUtils {
 
-    public static <T extends AbstractUpdateEntity> List<T> filterByMonth(List<T> coupons, List<Months> values) {
-        return filterByValue(coupons, values, T::getMonth);
+    private AbstractFilterUtils() {
     }
 
-    public static <T extends AbstractUpdateEntity> List<T> filterByYear(List<T> coupons, List<Integer> values) {
-        return filterByNonEnum(coupons, values, T::getYear);
+    public static <T extends AbstractUpdateEntity> List<T> filterByMonth(List<T> entries, List<Months> values) {
+        return filterByValue(entries, values, T::getMonth);
     }
 
-    protected static <T, R> List<R> filterByNonEnum(List<R> input, List<T> values, Function<R, T> function) {
+    public static <T extends AbstractUpdateEntity> List<T> filterByYear(List<T> entries, List<Integer> values) {
+        return filterByNonEnum(entries, values, T::getYear);
+    }
+
+    public static <T, R> List<R> filterByNonEnum(List<R> input, List<T> values, Function<R, T> function) {
         return abstractFilter(input, values, function);
     }
 
-    protected static <T extends IEnum, R> List<R> filterByValue(List<R> input, List<T> values, Function<R, T> function) {
+    public static <T extends IEnum, R> List<R> filterByValue(List<R> input, List<T> values, Function<R, T> function) {
         return abstractFilter(input, values, function);
     }
 

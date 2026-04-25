@@ -10,10 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TicketFunctionUtils extends AbstractFunctionUtils {
+public final class TicketFunctionUtils {
 
     public static final String DISCOUNTED_GROUP = "discounted";
     public static final String TICKET_GROUP = "ticket";
+    public static final String MONTH_GROUP = AbstractFunctionUtils.MONTH_GROUP;
+    public static final String YEAR_GROUP = AbstractFunctionUtils.YEAR_GROUP;
+
+    private TicketFunctionUtils() {
+    }
+
+    public static void validateGroups(String upperGroup, String lowerGroup) {
+        AbstractFunctionUtils.validateGroups(upperGroup, lowerGroup);
+    }
 
     public static Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> createGrouping(String groupName) {
         Function<List<UpdateTicketEntity>, Map<IEnum, List<UpdateTicketEntity>>> convertedData;

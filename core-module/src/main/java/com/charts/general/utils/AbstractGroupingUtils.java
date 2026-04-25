@@ -15,7 +15,10 @@ import java.util.stream.Collectors;
 
 import static com.charts.general.entity.constants.EnumerationConstants.MONTH_LIST;
 
-public abstract class AbstractGroupingUtils {
+public final class AbstractGroupingUtils {
+
+    private AbstractGroupingUtils() {
+    }
 
     public static <T extends AbstractUpdateEntity> Map<EnumAdapter, List<T>> groupByYear(List<T> couponEntityList) {
         return groupValues(couponEntityList, e -> new EnumAdapter(e.getYear()));
@@ -25,8 +28,13 @@ public abstract class AbstractGroupingUtils {
         return groupValues(entityList, T::getMonth, MONTH_LIST);
     }
 
-    public static <T extends IEnum> Map<String, Object> convertMapKeysToString(Map<T, Object> map) {
-        return map.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().getValue(), Map.Entry::getValue));
+    public static <T extends IEnum, V> Map<String, V> convertMapKeysToString(Map<T, V> map) {
+        return map.entrySet().stream().collect(Collectors.toMap(
+                entry -> entry.getKey().getValue(),
+                Map.Entry::getValue,
+                (e1, e2) -> e1,
+                LinkedHashMap::new
+        ));
     }
 
     /**
@@ -37,7 +45,7 @@ public abstract class AbstractGroupingUtils {
      * @param <T> Enumeration implementing {@link IEnum}
      * @param <R> Values that are implementing implementing {@link AbstractUpdateEntity}
      */
-    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(Map<T, List<R>> entityList) {
+    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Long> aggregateGroupsSum(Map<T, List<R>> entityList) {
         return entityList.entrySet()
                 .stream()
                 .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), aggregateGroupSum(e.getValue()).longValue()))
@@ -58,7 +66,7 @@ public abstract class AbstractGroupingUtils {
      * @param <T> Enumeration implementing {@link IEnum}
      * @param <R> Values that are implementing implementing {@link AbstractUpdateEntity}
      */
-    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(List<R> entryList, Function<List<R>, Map<T, List<R>>> groupingFunction) {
+    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Long> aggregateGroupsSum(List<R> entryList, Function<List<R>, Map<T, List<R>>> groupingFunction) {
         Map<T, List<R>> groupedValues = groupingFunction.apply(entryList);
         return aggregateGroupsSum(groupedValues);
     }
@@ -82,7 +90,7 @@ public abstract class AbstractGroupingUtils {
      * @param <T> Enumeration implementing {@link IEnum}
      * @param <R> Type of value that will be implementing {@link AbstractUpdateEntity}
      */
-    protected static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction) {
+    public static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction) {
         return groupValues(entryList, groupingFunction, null);
     }
 
@@ -95,7 +103,7 @@ public abstract class AbstractGroupingUtils {
      * @param <T> Enumeration implementing {@link IEnum}
      * @param <R> Type of value that will be implementing {@link AbstractUpdateEntity}
      */
-    protected static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction, List<T> values) {
+    public static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction, List<T> values) {
         Map<T, List<R>> map = entryList
                 .stream()
                 .collect(Collectors.groupingBy(groupingFunction));

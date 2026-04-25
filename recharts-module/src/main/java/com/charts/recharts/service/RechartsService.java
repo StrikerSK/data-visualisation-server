@@ -75,7 +75,7 @@ public class RechartsService {
 				.map(upper -> AbstractGroupingUtils.aggregateGroupsSum(upper.getValue(), lowerFunction)
                         .entrySet()
                         .stream()
-                        .map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), ((Long) lower.getValue()).intValue()))
+                        .map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), lower.getValue().intValue()))
                         .collect(Collectors.toList()))
 				.collect(Collectors.toList());
 	}

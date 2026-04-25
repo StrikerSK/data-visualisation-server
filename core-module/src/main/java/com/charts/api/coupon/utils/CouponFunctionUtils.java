@@ -10,11 +10,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class CouponFunctionUtils extends AbstractFunctionUtils {
+public final class CouponFunctionUtils {
 
     public static final String PERSON_GROUP = "person";
     public static final String SELL_GROUP = "sell";
     public static final String VALIDITY_GROUP = "validity";
+    public static final String MONTH_GROUP = AbstractFunctionUtils.MONTH_GROUP;
+    public static final String YEAR_GROUP = AbstractFunctionUtils.YEAR_GROUP;
+
+    private CouponFunctionUtils() {
+    }
+
+    public static void validateGroups(String upperGroup, String lowerGroup) {
+        AbstractFunctionUtils.validateGroups(upperGroup, lowerGroup);
+    }
 
     public static Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> createGrouping(String groupName) {
         Function<List<UpdateCouponEntity>, Map<IEnum, List<UpdateCouponEntity>>> convertedData;

@@ -2,6 +2,7 @@ package com.charts.api.coupon.utils;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.types.Months;
+import com.charts.general.utils.AbstractSortingUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,7 +26,7 @@ public class CouponSortingUtilsTest {
 
     @Test
     public void testSortByMonth() {
-        List<Months> result = new ArrayList<>(CouponSortingUtils.sortByOrderValue(monthMap).keySet());
+        List<Months> result = new ArrayList<>(AbstractSortingUtils.sortByOrderValue(monthMap).keySet());
         Assert.assertEquals(result.size(), 3);
         Assert.assertEquals(result.get(0), Months.MARCH);
         Assert.assertEquals(result.get(1), Months.JUNE);

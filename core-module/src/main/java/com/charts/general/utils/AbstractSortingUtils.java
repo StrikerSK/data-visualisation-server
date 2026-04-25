@@ -7,7 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class AbstractSortingUtils {
+public final class AbstractSortingUtils {
+
+    private AbstractSortingUtils() {
+    }
 
     public static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> mapToSort) {
         return mapToSort.entrySet().stream()
