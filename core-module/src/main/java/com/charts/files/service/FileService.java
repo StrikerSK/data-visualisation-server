@@ -5,7 +5,7 @@ import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.files.generator.IDataGenerator;
-import com.charts.files.utils.CsvProcessor;
+import com.charts.files.utils.CsvFileHandler;
 import com.charts.files.exception.CsvContentException;
 import com.charts.files.conditions.FileCondition;
 import com.charts.files.exception.FileProcessingException;
@@ -23,11 +23,13 @@ public class FileService {
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
 	private final IDataGenerator dataGenerator;
+    private final CsvFileHandler csvFileHandler;
 
-	public FileService(CouponV2Service couponService, TicketService ticketService, IDataGenerator dataGenerator) {
+	public FileService(CouponV2Service couponService, TicketService ticketService, IDataGenerator dataGenerator, CsvFileHandler csvFileHandler) {
 		this.couponService = couponService;
 		this.ticketService = ticketService;
 		this.dataGenerator = dataGenerator;
+        this.csvFileHandler = csvFileHandler;
 	}
 
 	public List<UpdateCouponEntity> fetchCoupons(Integer count, Boolean random) {
@@ -54,7 +56,7 @@ public class FileService {
 		processEntries(payload, UpdateTicketEntity.class, ticketService::saveAll);
 	}
 
-	private static <T> void processEntries(
+	private <T> void processEntries(
 			MultipartFile payload,
 			Class<T> clazz,
 			Consumer<List<T>> persistence
@@ -68,8 +70,8 @@ public class FileService {
 		}
 	}
 
-	private static <T> List<T> readEntries(MultipartFile payload, Class<T> clazz) throws Exception {
-		return CsvProcessor.readEntries(payload.getInputStream(), clazz);
+	private <T> List<T> readEntries(MultipartFile payload, Class<T> clazz) throws Exception {
+		return csvFileHandler.readEntries(payload.getInputStream(), clazz);
 	}
 
 }

@@ -5,7 +5,7 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.conditions.FileExportCondition;
 import com.charts.files.exception.FileProcessingException;
 import com.charts.files.service.FileService;
-import com.charts.files.utils.CsvProcessor;
+import com.charts.files.utils.CsvFileHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpHeaders;
@@ -23,9 +23,11 @@ import java.util.UUID;
 public class FileExportController {
 
 	private final FileService fileService;
+    private final CsvFileHandler csvFileHandler;
 
-	public FileExportController(FileService fileService) {
+	public FileExportController(FileService fileService, CsvFileHandler csvFileHandler) {
 		this.fileService = fileService;
+        this.csvFileHandler = csvFileHandler;
 	}
 
 	@GetMapping(value = "/ticket", produces = "text/csv")
@@ -48,13 +50,13 @@ public class FileExportController {
 		writeResponse(response, couponList, "coupon");
 	}
 
-	private static <T> void writeResponse(HttpServletResponse response, List<T> entries, String prefix) {
+	private <T> void writeResponse(HttpServletResponse response, List<T> entries, String prefix) {
 		try {
 			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s_%s.csv", prefix, UUID.randomUUID()));
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
 			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
-			CsvProcessor.writeEntries(response.getWriter(), entries);
+			csvFileHandler.writeEntries(response.getWriter(), entries);
 		} catch (Exception e) {
 			throw new FileProcessingException("Failed to write CSV response", e);
 		}

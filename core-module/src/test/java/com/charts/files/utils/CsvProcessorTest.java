@@ -5,6 +5,7 @@ import com.charts.api.coupon.entity.enums.types.PersonType;
 import com.charts.api.coupon.entity.enums.types.SellType;
 import com.charts.api.coupon.entity.enums.types.Validity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.entity.enums.TicketType;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.files.exception.CsvContentException;
@@ -68,6 +69,28 @@ public class CsvProcessorTest {
 
         Assert.assertEquals(countValues(couponList, 2023, UpdateCouponEntity::getYear), 2);
         Assert.assertEquals(sumValues(couponList, 2023, UpdateCouponEntity::getYear), 3000);
+    }
+
+    @Test
+    public void testTicketFileRead() throws IOException {
+        InputStream inputStream = new java.io.ByteArrayInputStream("""
+                MONTH,TICKETTYPE,DISCOUNTED,VALUE,YEAR
+                JANUARY,FIFTEEN_MINUTES,true,30,2024
+                FEBRUARY,ONE_DAY,false,40,2024
+                """.getBytes(StandardCharsets.UTF_8));
+
+        List<UpdateTicketEntity> ticketList = CsvProcessor.readEntries(inputStream, UpdateTicketEntity.class);
+
+        Assert.assertEquals(ticketList.size(), 2);
+        Assert.assertEquals(ticketList.get(0).getMonth(), Months.JANUARY);
+        Assert.assertEquals(ticketList.get(0).getTicketType(), TicketType.FIFTEEN_MINUTES);
+        Assert.assertEquals(ticketList.get(0).getDiscounted(), Boolean.TRUE);
+        Assert.assertEquals(ticketList.get(0).getValue(), Integer.valueOf(30));
+        Assert.assertEquals(ticketList.get(0).getYear(), Integer.valueOf(2024));
+
+        Assert.assertEquals(ticketList.get(1).getMonth(), Months.FEBRUARY);
+        Assert.assertEquals(ticketList.get(1).getTicketType(), TicketType.ONE_DAY);
+        Assert.assertEquals(ticketList.get(1).getDiscounted(), Boolean.FALSE);
     }
 
     @Test
